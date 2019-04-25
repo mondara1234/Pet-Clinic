@@ -67,7 +67,7 @@ class homeScreen extends React.PureComponent {
                         <Card style={styles.cardSchedule}>
                             <CardItem>
                                 <Body style={styles.cardBody}>
-                                    <CommonText text={'แจ้งเตือนกำหนดการนัดครั้งถัดไป'} size={22} style={{marginBottom: '5%'}} />
+                                    <CommonText text={'แจ้งกำหนดการนัดครั้งถัดไป'} size={22} style={{marginBottom: '5%', fontWeight: 'bold'}} />
                                     <View style={styles.containerText}>
                                         <CommonText text={'วันที่ : '} size={20} style={{fontWeight: 'bold'}} />
                                         <CommonText text={'08/04/2562'} size={20} style={{marginLeft: 10}} />
@@ -81,7 +81,7 @@ class homeScreen extends React.PureComponent {
                         </Card>
                         <View style={styles.containerSliding}>
                             <TouchableOpacity
-                                onPress={ () => this.props.navigation.navigate({routeName: LISTHERB_SCREEN, params: { title: 'โรคท้องผูก' }})}
+                                //onPress={ () => this.props.navigation.navigate({routeName: LISTHERB_SCREEN, params: { title: 'โรคท้องผูก' }})}
                             >
                                 <CommonText text={'เลื่อนการนัด'} size={18} style={{fontWeight: 'bold'}} />
                             </TouchableOpacity>
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     cardSchedule: {
         borderWidth: 5,
         borderColor: '#d6913a',
-        width: '99%' ,
+        width: '96%' ,
         height: 150
     },
     cardBody: {

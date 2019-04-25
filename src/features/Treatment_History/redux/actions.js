@@ -1,6 +1,6 @@
 import { ALL_LIST, SET_LOAD } from './constants';
 
-export const AllLISTHERBDATA = (data) => ({
+export const AllHistory = (data) => ({
     type: ALL_LIST,
     json: data
 });

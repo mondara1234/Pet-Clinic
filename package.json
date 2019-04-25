@@ -7,12 +7,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "moment": "^2.22.2",
     "react": "16.3.x",
     "react-native": "0.55.x",
     "react-native-autocomplete-input": "^3.6.0",
     "native-base": "^2.6.0",
     "prop-types": "^15.6.0",
+    "react-native-camera": "^1.2.0",
     "react-native-vector-icons": "^5.0.0",
+    "react-native-image-picker": "^0.26.10",
+    "react-native-popup-dialog": "^0.16.5",
     "react-navigation": "^1.5",
     "react-native-style-tachyons": "^3.5.0",
     "react-navigation-redux-helpers": "^2.0.8",
