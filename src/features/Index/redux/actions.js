@@ -1,10 +1,7 @@
-import { ALL_LIST, SET_LOAD } from './constants';
+import { ALL_SLEDGING } from './constants';
 
-export const AllLISTHERBDATA = (data) => ({
-    type: ALL_LIST,
+export const ALLSLEDGING = (data) => ({
+    type: ALL_SLEDGING,
     json: data
 });
 
-export const SETLOAD = () => ({
-    type: SET_LOAD
-});

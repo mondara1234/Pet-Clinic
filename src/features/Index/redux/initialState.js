@@ -1,6 +1,5 @@
 const initialState = {
-    dataList: [],
-    loading : true
+    dataSladging: []
 };
 
 export default initialState;
