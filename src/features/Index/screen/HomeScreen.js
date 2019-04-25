@@ -79,6 +79,13 @@ class homeScreen extends React.PureComponent {
                             </Body>
                         </CardItem>
                         </Card>
+                        <View style={styles.containerSliding}>
+                            <TouchableOpacity
+                                onPress={ () => this.props.navigation.navigate({routeName: LISTHERB_SCREEN, params: { title: 'โรคท้องผูก' }})}
+                            >
+                                <CommonText text={'เลื่อนการนัด'} size={18} style={{fontWeight: 'bold'}} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <SideMenu
                         homeScreen={() => {
@@ -125,12 +132,19 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderColor: '#d6913a',
         width: '99%' ,
-        height: 200
+        height: 150
     },
     cardBody: {
         flex: 1,
         alignItems: 'center'
-    }
+    },
+    containerSliding: {
+        width: '99%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        marginRight: '3%'
+    },
 });
 
 export default connect(
