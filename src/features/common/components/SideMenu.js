@@ -4,7 +4,7 @@ import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet } from 'react-native';
-import { Footer, FooterTab, Button, Text } from 'native-base';
+import { Footer, FooterTab, Button } from 'native-base';
 import CommonText from '../../common/components/CommonText';
 
 const SideMenu = (props) => {
@@ -21,15 +21,15 @@ const SideMenu = (props) => {
                 style={styles.button}
                 onPress={ props.symptomScreen }
             >
-                <IconFontAwesome name="heartbeat" size={30} style={styles.icon} />
-                <CommonText text={'วิเคราะห์อาการ'} style={[styles.Text,{marginLeft: -3}]} />
+                <IconFontAwesome name="history" size={30} style={styles.icon} />
+                <CommonText text={'ประวัติการรักษา'} style={[styles.Text,{marginLeft: -3}]} />
             </Button>
             <Button
                 style={styles.button}
                 onPress={ props.herbScreen }
             >
-                <IconMaterialCommunityIcons name="leaf" size={30} style={styles.icon} />
-                <CommonText text={'สมุนไพร'} style={styles.Text} />
+                <IconMaterialCommunityIcons name="settings-outline" size={30} style={styles.icon} />
+                <CommonText text={'ตั้งค่า'} style={styles.Text} />
             </Button>
         </FooterTab>
     </Footer>
@@ -37,7 +37,7 @@ const SideMenu = (props) => {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#37818e',
+        backgroundColor: '#d6913a',
         alignItems: 'center',
         justifyContent: 'center',
     },

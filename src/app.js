@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { StatusBar, YellowBox } from 'react-native';
+import { StatusBar } from 'react-native';
 import { StyleProvider, Root } from 'native-base';
 import ThemeVariables from '../native-base-theme/variables/platform';
 import RootNavigation from './common/rootNavigation';

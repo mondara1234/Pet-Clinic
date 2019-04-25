@@ -5,7 +5,7 @@ import {StyleSheet, View, Text} from 'react-native';
 
 const HeaderTitle = (props) => {
     return <View style={[styles.container, props.style]}>
-            <CommonText text={'Dr.Herb Relieve life'} color={'#fff'} size={20} style={styles.textTitle} />
+            <CommonText text={'Pet Clinic'} color={'#fff'} size={20} style={styles.textTitle} />
             <Text numberOfLines={1} style={{color:props.color, fontSize: props.size}}>{props.text}</Text>
     </View>
 };
