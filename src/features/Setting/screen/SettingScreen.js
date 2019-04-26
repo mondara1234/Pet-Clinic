@@ -177,6 +177,7 @@ class settingScreen extends React.PureComponent {
             .catch((error) => {
                 console.error(error);
             });
+        console.log('update',response);
         if(response === 'อัพเดทสำเร็จ')
         {
             Alert.alert(
