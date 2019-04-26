@@ -11,6 +11,7 @@ import SideMenu from '../../common/components/SideMenu';
 import { HOME_SCREEN } from "../../Index/router";
 import { HISTORY_SCREEN } from "../router";
 import { SETTING_SCREEN } from "../../Setting/router";
+import { SETLOAD } from "../redux/actions";
 
 class DetailHistory extends React.PureComponent {
     constructor(){
@@ -44,29 +45,33 @@ class DetailHistory extends React.PureComponent {
                 <Container>
                     <Content style={{width: '100%'}}>
                         <View style={styles.container}>
-                            <CommonText text={HistoryData.title} size={20} style={{fontWeight: 'bold'}}  />
-                            <View style={[styles.containerText,{marginTop: 5}]}>
-                                <CommonText text={'วันที่ทำการรักษา : '} size={18} style={{fontWeight: 'bold'}}  />
+                            <View style={{alignItems:'center', marginBottom: 5}}>
+                                <CommonText text={HistoryData.title} size={20} style={{fontWeight: 'bold', alignItems:'center'}}  />
+                            </View>
+                            <View style={{marginLeft: 10}}>
+                                <View style={[styles.containerText,{marginTop: 5}]}>
+                                    <CommonText text={'วันที่ทำการรักษา : '} size={18} style={{fontWeight: 'bold'}}  />
+                                    <CommonText text={HistoryData.symptom} size={18} />
+                                </View>
+                                <View style={[styles.containerText,{marginTop: 5}]}>
+                                    <CommonText text={'ผู้รับผิดชอบ : '} size={18} style={{fontWeight: 'bold'}}  />
+                                    <CommonText text={HistoryData.nameVeterinary} size={18} />
+                                </View>
+                                <View style={[styles.containerText,{marginBottom: 10, marginTop: 5}]}>
+                                    <CommonText text={'เบอร์โทรศัทพ์ : '} size={18} style={{fontWeight: 'bold'}}  />
+                                    <CommonText text={HistoryData.phoneVeterinary} size={18} />
+                                </View>
+                            </View>
+                            <CommonText text={'อาการ :'} size={18} style={{fontWeight: 'bold'}}  />
+                            <View style={styles.containerDetail}>
                                 <CommonText text={HistoryData.symptom} size={18} />
                             </View>
-                            <View style={[styles.containerText,{marginTop: 5}]}>
-                                <CommonText text={'ผู้รับผิดชอบ : '} size={18} style={{fontWeight: 'bold'}}  />
-                                <CommonText text={HistoryData.nameVeterinary} size={18} />
-                            </View>
-                            <View style={[styles.containerText,{marginTop: 5}]}>
-                                <CommonText text={'เบอร์โทรศัทพ์ : '} size={18} style={{fontWeight: 'bold'}}  />
-                                <CommonText text={HistoryData.phoneVeterinary} size={18} />
-                            </View>
+                            <CommonText text={'รายละเอียดการรักษา :'} size={18} style={{fontWeight: 'bold'}}  />
                             <View style={styles.containerDetail}>
-                                <CommonText text={'อาการ'} size={18} style={{fontWeight: 'bold'}}  />
-                                <CommonText text={HistoryData.symptom} size={18} />
-                            </View>
-                            <View style={styles.containerDetail}>
-                                <CommonText text={'รายละเอียดการรักษา'} size={18} style={{fontWeight: 'bold'}}  />
                                 <CommonText text={HistoryData.detail} size={18} />
                             </View>
+                            <CommonText text={'ราคาทั้งหมด :'} size={18} style={{fontWeight: 'bold'}} />
                             <View style={styles.containerDetail}>
-                                <CommonText text={'ราคาทั้งหมด'} size={18} style={{fontWeight: 'bold'}} />
                                 <CommonText text={HistoryData.price} size={18} />
                             </View>
                         </View>
@@ -98,8 +103,8 @@ DetailHistory.navigationOptions  = ({navigation}) => ({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         marginTop: '5%',
+        paddingLeft: 5,
         paddingTop: 5
     },
     containerimg: {
@@ -111,13 +116,13 @@ const styles = StyleSheet.create({
     containerDetail: {
         borderWidth: 2,
         borderColor: '#d6913a',
-        width: '99.9%',
+        width: '98%',
         margin: '1%',
-        padding: '1%'
+        padding: '1%',
+        marginBottom: 5
     },
     containerText: {
         flexDirection: 'row',
-        alignItems: 'center',
         margin: 5,
         marginBottom: 0
     }

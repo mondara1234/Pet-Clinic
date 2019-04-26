@@ -108,7 +108,7 @@ class SledgingScreen extends React.PureComponent {
                 `คุณต้องการเลื่อนนัดเป็นวันที่: ${this.state.dateShow} ใช่ไหม`,
                 [
                     { text: 'ใช่', onPress: () => {
-                        this.props.InsertSledging( user, title, dateBD, time, detail, status, Responsible, old_date );
+                        this.InsertSledging( user, title, dateBD, time, detail, status, Responsible, old_date );
                     } },
                     { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
                 ],
@@ -125,14 +125,14 @@ class SledgingScreen extends React.PureComponent {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                user: user,
-                title: title,
-                date: dateBD,
-                time: time,
-                detail: detail,
-                Responsible: Responsible,
-                old_date: old_date,
-                status: status
+                user: `${user}`,
+                title: `${title}`,
+                date: `${dateBD}`,
+                time: `${time}`,
+                detail: `${detail}`,
+                Responsible: `${Responsible}`,
+                old_date: `${old_date}`,
+                status: `${status}`
             })
         }).then((response) => response.json())
             .then((responseJson) => {

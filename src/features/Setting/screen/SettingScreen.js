@@ -17,6 +17,7 @@ import { SETTING_SCREEN } from "../router";
 import { LOGIN } from "../../login/router";
 import { SETLOAD } from "../../Treatment_History/redux/actions";
 import { getUSER_LOGOUT } from "../../login/redux/actions";
+import moment from "moment/moment";
 
 class settingScreen extends React.PureComponent {
     constructor(props) {
@@ -70,11 +71,11 @@ class settingScreen extends React.PureComponent {
         const birthAnimal = user.map((data) => {return data.birthAnimal});
         const breedAnimal = user.map((data) => {return data.breedAnimal});
         this.setState({
-            nameAnimal: nameAnimal,
-            ImageSource: picAnimal,
-            sexAnimal: sexAnimal,
-            birthAnimal: birthAnimal,
-            breedAnimal: breedAnimal
+            nameAnimal: `${nameAnimal}`,
+            ImageSource: `${picAnimal}`,
+            sexAnimal: `${sexAnimal}`,
+            birthAnimal: moment(`${birthAnimal}`).format("DD/MM/YYYY"),
+            breedAnimal: `${breedAnimal}`
         })
     }
 

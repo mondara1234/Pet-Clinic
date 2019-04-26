@@ -130,13 +130,13 @@ class LoingScreen extends Component {
                                 <IconMaterialCommunityIcons name="email" size={30} style={styles.icon}/>
                                 <TextInput style={styles.inputBox}
                                            underlineColorAndroid='rgba(0,0,0,0)'
-                                           placeholder={'E-mail'}
+                                           placeholder={'Username'}
                                            placeholderTextColor = "#d6913a"
                                            selectionColor="#fff"
                                            onChangeText={UserName =>this.setState({User: UserName})}
                                 />
                             </View>
-                            <View style={styles.containerText}>
+                            <View style={[styles.containerText,{marginLeft: 20}]}>
                                 <IconFontAwesome name="lock" size={30} style={styles.icon}/>
                                 <TextInput style={styles.inputBox}
                                            underlineColorAndroid='rgba(0,0,0,0)'

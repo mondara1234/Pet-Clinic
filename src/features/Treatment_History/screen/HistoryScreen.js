@@ -15,6 +15,7 @@ import { HISTORY_SCREEN, DETAIL_HISTORY } from "../router";
 import { SETTING_SCREEN } from "../../Setting/router";
 import { SETLOAD, AllHistory } from "../redux/actions";
 import { SERVER_URL } from "../../../common/constants";
+import moment from "moment/moment";
 
 class HistoryScreen extends React.PureComponent {
     constructor(props) {
@@ -131,7 +132,7 @@ class HistoryScreen extends React.PureComponent {
                     <View style={styles.bodyRendsrItem}>
                         <Text numberOfLines={1} style={styles.fontbase}>{item.title}</Text>
                         <View style={styles.containerText}>
-                            <CommonText text={`วันที่ : ${item.date}`} size={20} style={styles.fontTime} />
+                            <CommonText text={`วันที่ : ${moment(item.date).format("DD/MM/YYYY")}`} size={20} style={styles.fontTime} />
                             <CommonText text={`เวลา : ${item.time}`} size={20} style={[styles.fontTime,{marginLeft: 10}]} />
                         </View>
                     </View>
@@ -154,7 +155,7 @@ class HistoryScreen extends React.PureComponent {
                                 containerStyle={styles.autocompleteContainer}/*กำหนดรูปแบบแถบแสดงค้นหา*/
                                 defaultValue={this.state.query} /*กำหนดค่าเริ่มต้นให้กับ แวรู้*/
                                 onChangeText={(value) => this.findFilm(value)} /*ส่งค่าที่กรอกเข้าไป*/
-                                placeholder={'กรุณากรอกวันที่ เช่น 04/08/2562'} /*ลายน้ำเพื่อพิมจะหายไป*/
+                                placeholder={'กรุณากรอกวันที่ เช่น xxxx-xx-xx'} /*ลายน้ำเพื่อพิมจะหายไป*/
                             />
                             {this.state.query ?
                                 <TouchableOpacity onPress={() => this.BtnClear()} >

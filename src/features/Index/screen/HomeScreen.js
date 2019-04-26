@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, BackHandler, Alert, Keyboard, Image } from 'react-native';
-import { Container, Card, CardItem, Body } from 'native-base';
+import { Container,Content, Card, CardItem, Body } from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { NavigationActions } from "react-navigation";
+import moment from "moment";
 import HandleBack from "../../common/components/HandleBack";
 import CommonText from '../../common/components/CommonText';
 import SideMenu from '../../common/components/SideMenu';
@@ -21,10 +22,10 @@ class homeScreen extends React.PureComponent {
         this.state = {
             editing: true,
             nameAnimal: '',
-            picAnimal: null,
             sexAnimal: '',
             birthAnimal: '',
             breedAnimal: '',
+            ImageSource: '',
             title: '',
             date: '',
             time: '',
@@ -57,15 +58,16 @@ class homeScreen extends React.PureComponent {
     async getdataUser() {
         const {user} = this.props.Users;
         const nameAnimal = user.map((data) => {return data.nameAnimal});
-        const picAnimal = user.map((data) => {return data.picAnimal});
         const sexAnimal = user.map((data) => {return data.sexAnimal});
         const birthAnimal = user.map((data) => {return data.birthAnimal});
         const breedAnimal = user.map((data) => {return data.breedAnimal});
+        const picAnimal = user.map((data) => {return data.picAnimal});
+        const picAnimals = `${picAnimal}`;
         this.setState({
             nameAnimal: nameAnimal,
-            picAnimal: picAnimal,
             sexAnimal: sexAnimal,
-            birthAnimal: birthAnimal,
+            ImageSource: picAnimals,
+            birthAnimal: moment(`${birthAnimal}`).format("DD/MM/YYYY"),
             breedAnimal: breedAnimal
         });
     }
@@ -94,13 +96,13 @@ class homeScreen extends React.PureComponent {
         const { dataSladging } = this.props.sledging;
         const title = dataSladging.map((data) => {return data.title});
         const date = dataSladging.map((data) => {return data.date});
-        const time = dataSladging.map((data) => {return data.time});
+        const times = dataSladging.map((data) => {return data.time});
         const Responsible = dataSladging.map((data) => {return data.Responsible});
         const phoneVeterinary = dataSladging.map((data) => {return data.phoneVeterinary});
         this.setState({
             title: title,
-            date: date,
-            time: time,
+            date: moment(`${date}`).format("DD/MM/YYYY"),
+            time: times,
             Responsible: Responsible,
             phoneVeterinary: phoneVeterinary
         })
@@ -111,12 +113,10 @@ class homeScreen extends React.PureComponent {
                 <Container>
                     <Content style={{width: '100%'}}>
                         <View style={styles.container}>
-                            <View style={styles.containerimg}>
-                                <Image
-                                    style={styles.image}
-                                    source={{uri: this.state.picAnimal}}
-                                />
-                            </View>
+                            <Image
+                                style={{width: 120, height: 120}}
+                                source={{uri: this.state.ImageSource}}
+                            />
                             <View style={{ marginBottom: 15 }}>
                                 <View style={[styles.containerText,{marginTop: 30}]}>
                                     <CommonText text={'ชื่อ :'} style={{fontWeight: 'bold', marginLeft: '19.5%'}} />
@@ -199,10 +199,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: '10%'
     },
-    image: {
-        width: 120,
-        height: 120
-    },
     containerText: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -224,11 +220,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
         marginRight: '3%'
-    },
-    containerimg: {
-        borderWidth: 2,
-        borderColor: '#d6913a',
-        margin: '5%'
     }
 });
 
