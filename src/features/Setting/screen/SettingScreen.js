@@ -128,6 +128,11 @@ class settingScreen extends React.PureComponent {
         const {user} = this.props.Users;
         const id = user.map((data) => {return data.id});
         const users = user.map((data) => {return data.user});
+        const nameAnimal = user.map((data) => {return data.nameAnimal});
+        const picAnimal = user.map((data) => {return data.picAnimal});
+        const sexAnimal = user.map((data) => {return data.sexAnimal});
+        const birthAnimal = user.map((data) => {return data.birthAnimal});
+        const breedAnimal = user.map((data) => {return data.breedAnimal});
         let UserNames = `${users}`;
         let ids = id.toString();
         if(
@@ -141,6 +146,21 @@ class settingScreen extends React.PureComponent {
                 'กรุณากรอกให้ครบ',
                 [
                     { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+        }else if(
+            `${nameAnimal}` === this.state.nameAnimal
+            && `${sexAnimal}` === this.state.sexAnimal
+            && `${birthAnimal}` === this.state.birthAnimal
+            && `${breedAnimal}` === this.state.breedAnimal
+            && `${picAnimal}` === this.state.ImageSource
+        ){
+            Alert.alert(
+                'แจ้งเตือน',
+                'ข้อมูลคุณไม่มีการเปลี่ยนแปลง',
+                [
+                    { text: 'ตกลง', onPress: () => {}, style: "cancel" }
                 ],
                 { cancelable: false },
             );
