@@ -158,7 +158,7 @@ class settingScreen extends React.PureComponent {
         ){
             Alert.alert(
                 'แจ้งเตือน',
-                'ข้อมูลคุณไม่มีการเปลี่ยนแปลง',
+                'ข้อมูลของคุณไม่มีการเปลี่ยนแปลง',
                 [
                     { text: 'ตกลง', onPress: () => {}, style: "cancel" }
                 ],
@@ -186,11 +186,11 @@ class settingScreen extends React.PureComponent {
             },
             body: JSON.stringify({
                 ids: ids,
-                nameAnimal: this.state.nameAnimal,
-                sexAnimal: this.state.sexAnimal,
-                picAnimal: this.state.ImageSource,
-                birthAnimal: this.state.birthAnimal,
-                breedAnimal: this.state.breedAnimal
+                nameAnimal: `${this.state.nameAnimal}`,
+                sexAnimal: `${this.state.sexAnimal}`,
+                picAnimal: `${this.state.ImageSource}`,
+                birthAnimal: `${this.state.birthAnimal}`,
+                breedAnimal: `${this.state.breedAnimal}`
             })
         }).then(response => response.json())
             .then((responseJson) => responseJson)
