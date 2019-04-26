@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, BackHandler, Alert, Keyboard, Image, TextInput, Text } from 'react-native';
-import { Container, Header, Content } from 'native-base';
+import { Container, Header, Content, Picker } from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { NavigationActions } from "react-navigation";
 import Dialog, { DialogTitle, DialogButton } from 'react-native-popup-dialog';
+import DatePicker from 'react-native-datepicker';
 import ImagePicker from "react-native-image-picker";
 import moment from "moment/moment";
 import HandleBack from "../../common/components/HandleBack";
@@ -78,11 +79,11 @@ class settingScreen extends React.PureComponent {
         const birthAnimal = user.map((data) => {return data.birthAnimal});
         const breedAnimal = user.map((data) => {return data.breedAnimal});
         this.setState({
-            nameAnimal: nameAnimal,
-            ImageSource: picAnimal,
-            sexAnimal: sexAnimal,
-            birthAnimal: birthAnimal,
-            breedAnimal: breedAnimal
+            nameAnimal: `${nameAnimal}`,
+            ImageSource: `${picAnimal}`,
+            sexAnimal: `${sexAnimal}`,
+            birthAnimal: `${birthAnimal}`,
+            breedAnimal: `${breedAnimal}`
         })
     }
 
@@ -408,11 +409,12 @@ class settingScreen extends React.PureComponent {
                                                onChangeText={TextInputValue => this.setState({nameAnimal: TextInputValue})}
                                     />
                                 </View>
-                                <View style={[styles.containerText,{marginTop: 0}]}>
+                                <View style={[styles.containerText,
+                                    {marginTop: -15, width: '92%', borderBottomWidth: 1, paddingBottom: -15, paddingTop: 15}]}>
                                     <CommonText text={'เพศ :'} style={{fontWeight: 'bold'}} />
                                     <Picker
                                         mode="dropdown"
-                                        style={{ color:'#d6913a', marginBottom: -5 , textDecorationLine: 'underline'}}
+                                        style={{ marginLeft: 7,color:'#d6913a', marginTop: -10, marginBottom: -10 , textDecorationLine: 'underline', width: '100%'}}
                                         textStyle={{borderBottomWidth: 1, }}
                                         selectedValue={this.state.sexAnimal}
                                         onValueChange={this.onValueChange.bind(this)}
@@ -424,25 +426,27 @@ class settingScreen extends React.PureComponent {
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 0}]}>
                                     <CommonText text={'วันเกิด :'} style={{fontWeight: 'bold'}} />
-                                    <CommonText text={moment(`${this.state.birthAnimal}`).format("DD/MM/YYYY")} style={styles.textDate}/>
-                                    <DatePicker
-                                        style={{width: 45, marginTop: -16}}
-                                        date={this.state.date}
-                                        hideText
-                                        mode="date"
-                                        format="YYYY-MM-DD"
-                                        maxDate={moment().format("YYYY-MM-DD")}
-                                        customStyles={{
-                                            dateIcon: {
-                                                width: 25,
-                                                height: 25,
-                                                marginBottom: -15
-                                            }
-                                        }}
-                                        onDateChange={(fulldate) => {
-                                            this.setState({birthAnimal: fulldate});
-                                        }}
-                                    />
+                                    <View style={styles.containerDate}>
+                                        <CommonText text={moment(`${this.state.birthAnimal}`).format("DD/MM/YYYY")} style={styles.textDate}/>
+                                        <DatePicker
+                                            style={{width: 45, marginTop: -16}}
+                                            date={this.state.date}
+                                            hideText
+                                            mode="date"
+                                            format="YYYY-MM-DD"
+                                            maxDate={moment().format("YYYY-MM-DD")}
+                                            customStyles={{
+                                                dateIcon: {
+                                                    width: 30,
+                                                    height: 30,
+                                                    marginBottom: -15
+                                                }
+                                            }}
+                                            onDateChange={(fulldate) => {
+                                                this.setState({birthAnimal: fulldate});
+                                            }}
+                                        />
+                                    </View>
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 0, marginBottom: 0}]}>
                                     <CommonText text={'สายพันธ์ :'} style={{fontWeight: 'bold'}} />
@@ -688,6 +692,19 @@ const styles = StyleSheet.create({
     },
     containerText: {
         margin: 10
+    },
+    containerDate: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: 2
+    },
+    textDate: {
+        color: '#d6913a',
+        fontSize: 18,
+        paddingLeft: 10,
+        borderBottomWidth: 1,
+        width: '90%'
     },
     inputBox: {
         width: '98%',
