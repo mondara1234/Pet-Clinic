@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, BackHandler, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { Alert, BackHandler, StyleSheet, View } from 'react-native';
 import { Container ,Content } from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -44,25 +44,31 @@ class DetailHistory extends React.PureComponent {
                 <Container>
                     <Content style={{width: '100%'}}>
                         <View style={styles.container}>
-                            <CommonText text={HistoryData.name} size={20} />
-                            <View style={styles.containerimg}>
-                                <Image
-                                    style={{width: 120, height: 120}}
-                                    source={{uri: HistoryData.pic}}
-                                />
+                            <CommonText text={HistoryData.title} size={20} style={{fontWeight: 'bold'}}  />
+                            <View style={[styles.containerText,{marginTop: 5}]}>
+                                <CommonText text={'วันที่ทำการรักษา : '} size={18} style={{fontWeight: 'bold'}}  />
+                                <CommonText text={HistoryData.symptom} size={18} />
                             </View>
-                                <View style={styles.containerDetail}>
-                                    <CommonText text={'รายละเอียด'} size={20} />
-                                    <CommonText text={HistoryData.detail} size={18} />
-                                </View>
-                                <View style={styles.containerDetail}>
-                                    <CommonText text={'สรรพคุณ'} size={20} />
-                                    <CommonText text={HistoryData.properties} size={18} />
-                                </View>
-                                <View style={styles.containerDetail}>
-                                    <CommonText text={'นิยมใช้ในการรักษาโรค'} size={20} />
-                                    <CommonText text={HistoryData.disease} size={18} />
-                                </View>
+                            <View style={[styles.containerText,{marginTop: 5}]}>
+                                <CommonText text={'ผู้รับผิดชอบ : '} size={18} style={{fontWeight: 'bold'}}  />
+                                <CommonText text={HistoryData.nameVeterinary} size={18} />
+                            </View>
+                            <View style={[styles.containerText,{marginTop: 5}]}>
+                                <CommonText text={'เบอร์โทรศัทพ์ : '} size={18} style={{fontWeight: 'bold'}}  />
+                                <CommonText text={HistoryData.phoneVeterinary} size={18} />
+                            </View>
+                            <View style={styles.containerDetail}>
+                                <CommonText text={'อาการ'} size={18} style={{fontWeight: 'bold'}}  />
+                                <CommonText text={HistoryData.symptom} size={18} />
+                            </View>
+                            <View style={styles.containerDetail}>
+                                <CommonText text={'รายละเอียดการรักษา'} size={18} style={{fontWeight: 'bold'}}  />
+                                <CommonText text={HistoryData.detail} size={18} />
+                            </View>
+                            <View style={styles.containerDetail}>
+                                <CommonText text={'ราคาทั้งหมด'} size={18} style={{fontWeight: 'bold'}} />
+                                <CommonText text={HistoryData.price} size={18} />
+                            </View>
                         </View>
                     </Content>
                     <SideMenu
@@ -108,6 +114,12 @@ const styles = StyleSheet.create({
         width: '99.9%',
         margin: '1%',
         padding: '1%'
+    },
+    containerText: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 5,
+        marginBottom: 0
     }
 });
 

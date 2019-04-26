@@ -1,20 +1,22 @@
 import { Alert } from "react-native";
 import { SERVER_URL } from "../../../common/constants";
 
-export const InsertSledging = (UserNames, dateFormat, Title, Img, Type, Detail) => dispatch => {
-    return fetch(`${SERVER_URL}/MYSQL/Problem/InsertProblem.php`, {
+export const InsertSledging = (user, title, dateBD, time, detail, status, Responsible, old_date) => dispatch => {
+    return fetch(`${SERVER_URL}/MYSQL/sledging/Insert_Postponement.php`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            title: Title,
-            type: Type,
-            detail: Detail,
-            img: Img,
-            username: UserNames,
-            date: dateFormat
+            user: user,
+            title: title,
+            date: dateBD,
+            time: time,
+            detail: detail,
+            Responsible: Responsible,
+            old_date: old_date,
+            status: status
         })
     }).then((response) => response.json())
         .then((responseJson) => {

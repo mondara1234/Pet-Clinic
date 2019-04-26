@@ -1,8 +1,8 @@
 import React from 'react';
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 import { HEADER_STYLE } from './constants';
-import { HomeRouter, SLEDGING_SCREEN } from "../features/Index/router";
-import { SettingRouter } from "../features/Setting/router";
+import { HomeRouter } from "../features/Index/router";
+import { SettingRouter, SETTING_SCREEN } from "../features/Setting/router";
 import { HistoryRouter } from "../features/Treatment_History/router";
 import { UserRouter, LOGIN } from "../features/login/router";
 
@@ -12,7 +12,7 @@ export const RootStack = StackNavigator({
     ...HistoryRouter,
     ...UserRouter
 },{
-    initialRouteName: SLEDGING_SCREEN,
+    initialRouteName: SETTING_SCREEN,
     navigationOptions: ({navigation}) => ({
         ...HEADER_STYLE
     }),

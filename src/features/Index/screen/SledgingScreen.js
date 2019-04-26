@@ -22,7 +22,10 @@ class SledgingScreen extends React.PureComponent {
 
         this.state = {
             editing: true,
-            dateShow: moment().format("DD/MM/YYYY HH:mm"),
+            user: '',
+            title: '',
+            Responsible: '',
+            dateShow: '',
             timeBD: '',
             dateBD: '',
             detail: ''
@@ -45,7 +48,39 @@ class SledgingScreen extends React.PureComponent {
         return false;
     };
 
+    componentDidMount() {
+        this.getdataSledging();
+    }
+
+    async getdataSledging() {
+        const { dataSladging } = this.props.sledging;
+        const user = dataSladging.map((data) => {return data.user});
+        const title = dataSladging.map((data) => {return data.title});
+        const date = dataSladging.map((data) => {return data.date});
+        const time = dataSladging.map((data) => {return data.time});
+        const Responsible = dataSladging.map((data) => {return data.Responsible});
+        const dateShow = moment(`${date} ${time}`).format("DD/MM/YYYY HH:mm");
+        this.setState({
+            user: user,
+            title: title,
+            dateShow: dateShow,
+            Responsible: Responsible
+        })
+    }
+
     addSledging(){
+        const { dataSladging } = this.props.sledging;
+        const dates = dataSladging.map((data) => {return data.date});
+
+        const user = this.state.user;
+        const title = this.state.title;
+        const dateBD = this.state.dateBD;
+        const time = this.state.timeBD;
+        const detail = this.state.detail;
+        const Responsible = this.state.Responsible;
+        const status = 'รออนุมัติ';
+        const old_date = `${dates}`;
+
         if(this.state.dateBD === '' && this.state.timeBD === '' ){
             Alert.alert(
                 'แจ้งเตือน',
@@ -70,7 +105,7 @@ class SledgingScreen extends React.PureComponent {
                 `คุณต้องการเลื่อนนัดเป็นวันที่: ${this.state.dateShow} ใช่ไหม`,
                 [
                     { text: 'ใช่', onPress: () => {
-                        this.props.FETCH_InsertSledging();
+                        this.props.FETCH_InsertSledging( user, title, dateBD, time, detail, status, Responsible, old_date );
                     } },
                     { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
                 ],

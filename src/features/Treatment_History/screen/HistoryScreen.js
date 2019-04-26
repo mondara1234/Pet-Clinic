@@ -44,7 +44,7 @@ class HistoryScreen extends React.PureComponent {
     };
 
     componentDidMount() {
-        //this.getListHistory();
+        this.getListHistory();
     }
 
     async getListHistory() {
@@ -73,20 +73,20 @@ class HistoryScreen extends React.PureComponent {
                 lengthHistory: data.length
             })
         }else{
-            this.SearchFoodMenu(value)
+            this.SearchHistory(value)
         }
     }
 
-    async SearchFoodMenu(value) {
+    async SearchHistory(value) {
         let valueName = `${value}`;
-        const response = await fetch(`${SERVER_URL}/MYSQLCHI/History/SeachHistoryName.php`, {
+        const response = await fetch(`${SERVER_URL}/MYSQL/History/SeachHistoryDate.php`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                Historyname : valueName
+                historyDate : valueName
             })
         }).then(response => response.json())
             .then((responseJson) => responseJson)
@@ -128,10 +128,10 @@ class HistoryScreen extends React.PureComponent {
                 >
                     <Body>
                     <View style={styles.bodyRendsrItem}>
-                        <Text numberOfLines={1} style={styles.fontbase}>{item.name}</Text>
+                        <Text numberOfLines={1} style={styles.fontbase}>{item.title}</Text>
                         <View style={styles.containerText}>
-                            <CommonText text={`วันที่ : ${item.disease}`} size={20} style={styles.fontTime} />
-                            <CommonText text={`เวลา : ${item.disease}`} size={20} style={[styles.fontTime,{marginLeft: 10}]} />
+                            <CommonText text={`วันที่ : ${item.date}`} size={20} style={styles.fontTime} />
+                            <CommonText text={`เวลา : ${item.time}`} size={20} style={[styles.fontTime,{marginLeft: 10}]} />
                         </View>
                     </View>
                     </Body>
