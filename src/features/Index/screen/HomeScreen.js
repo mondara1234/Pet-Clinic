@@ -13,6 +13,7 @@ import { HISTORY_SCREEN } from "../../Treatment_History/router";
 import { SETTING_SCREEN } from "../../Setting/router";
 import { SETLOAD } from "../../Treatment_History/redux/actions";
 import { ALLSLEDGING } from "../redux/actions";
+import { SERVER_URL } from "../../../common/constants";
 
 class homeScreen extends React.PureComponent {
     constructor(props) {
@@ -20,14 +21,15 @@ class homeScreen extends React.PureComponent {
         this.state = {
             editing: true,
             nameAnimal: '',
-            picAnimal: '',
+            picAnimal: null,
             sexAnimal: '',
             birthAnimal: '',
             breedAnimal: '',
             title: '',
             date: '',
             time: '',
-            Responsible: ''
+            Responsible: '',
+            phoneVeterinary: ''
         };
     }
 
@@ -65,8 +67,9 @@ class homeScreen extends React.PureComponent {
             sexAnimal: sexAnimal,
             birthAnimal: birthAnimal,
             breedAnimal: breedAnimal
-        })
+        });
     }
+
     async getdataVeterinary() {
         const {user} = this.props.Users;
         const users = user.map((data) => {return data.user});
@@ -86,17 +89,20 @@ class homeScreen extends React.PureComponent {
                 console.error(error);
             });
 
-        this.props.REDUCER__Searchledging(response);
+        this.props.REDUCER_Searchledging(response);
+
         const { dataSladging } = this.props.sledging;
         const title = dataSladging.map((data) => {return data.title});
         const date = dataSladging.map((data) => {return data.date});
         const time = dataSladging.map((data) => {return data.time});
         const Responsible = dataSladging.map((data) => {return data.Responsible});
+        const phoneVeterinary = dataSladging.map((data) => {return data.phoneVeterinary});
         this.setState({
             title: title,
             date: date,
             time: time,
-            Responsible: Responsible
+            Responsible: Responsible,
+            phoneVeterinary: phoneVeterinary
         })
     }
     render() {
@@ -130,9 +136,9 @@ class homeScreen extends React.PureComponent {
                             <CardItem>
                                 <Body style={styles.cardBody}>
                                     <CommonText text={'แจ้งกำหนดการนัดครั้งถัดไป'} size={22} style={{marginBottom: '5%', fontWeight: 'bold'}} />
-                                    <View style={styles.containerText}>
-                                        <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold',marginLeft: -100}} />
-                                        <CommonText text={this.state.title} size={18} style={{marginLeft: 10}} />
+                                    <View style={[styles.containerText,{width: 250}]}>
+                                        <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold', marginLeft: -30}} />
+                                        <CommonText text={this.state.title} size={18} style={{marginLeft: 10, width: 200}} />
                                     </View>
                                     <View style={styles.containerText}>
                                         <CommonText text={'ผู้รับผิดชอบ : '} size={18} style={{fontWeight: 'bold'}} />
@@ -229,6 +235,6 @@ export default connect(
     (dispatch) => ({
         NavigationActions: bindActionCreators(NavigationActions, dispatch),
         REDUCER_SetLoadinglist: bindActionCreators(SETLOAD, dispatch),
-        REDUCER__Searchledging: bindActionCreators(ALLSLEDGING, dispatch)
+        REDUCER_Searchledging: bindActionCreators(ALLSLEDGING, dispatch)
     })
 )(homeScreen);

@@ -43,10 +43,10 @@ class Registration extends Component {
                 })
             ]
         });
+
         return (
             <HandleBack onBack={this.onBack}>
                 <ImageBackground style={styles.backgroundImage}
-                       //source={{uri: 'https://sv1.picz.in.th/images/2019/02/27/TIiVc0.png'}}
                 >
                     <Form nameRegistration={'Register'} keyScreen={navigate}/>
                     <View style={styles.signupTextCont}>

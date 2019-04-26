@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { NavigationActions } from "react-navigation";
 import HandleBack from "../../common/components/HandleBack";
+import CommonText from '../../common/components/CommonText';
 import SideMenu from '../../common/components/SideMenu';
 import HeaderTitle from '../../common/components/HeaderTitle';
 import { HOME_SCREEN } from "../../Index/router";

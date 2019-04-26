@@ -7,4 +7,4 @@ export const HEADER_STYLE = {
     headerTintColor: '#000'
 };
 
-export const SERVER_URL = 'http://192.168.1.35';
+export const SERVER_URL = 'http://192.168.1.36';

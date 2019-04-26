@@ -12,7 +12,7 @@ export const RootStack = StackNavigator({
     ...HistoryRouter,
     ...UserRouter
 },{
-    initialRouteName: SETTING_SCREEN,
+    initialRouteName: LOGIN,
     navigationOptions: ({navigation}) => ({
         ...HEADER_STYLE
     }),

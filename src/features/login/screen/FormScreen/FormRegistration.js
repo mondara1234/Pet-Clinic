@@ -8,8 +8,9 @@ import DatePicker from 'react-native-datepicker';
 import ImagePicker from "react-native-image-picker";
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import CommonText from '../../../common/components/CommonText'
-import * as API from '../../api/api';
 import moment from "moment/moment";
+import { SERVER_URL } from "../../../../common/constants";
+import { LOGIN } from "../../router";
 
 class FormRegistration extends Component {
     constructor(props) {
@@ -127,7 +128,49 @@ class FormRegistration extends Component {
                const breedAnimal = this.state.TextInput_breedAnimal;
                const ImgProfile = this.state.ImageSource ? 'data:image/jpeg;base64,'+this.state.data : this.state.ImgDefault;
                const keyScreens = this.props.keyScreen;
-               this.props.Flights_Register(Name, Email, Password, ImgProfile, NameAnimal, sexAnimal, birthAnimal, breedAnimal, keyScreens, dateFormat);
+               const res = fetch(`${SERVER_URL}/MYSQL/user/InsertData.php`, {
+                   method: 'POST',
+                   headers: {
+                       'Accept': 'application/json',
+                       'Content-Type': 'application/json',
+                   },
+                   body: JSON.stringify({
+                       name: Name,
+                       email: Email,
+                       password: Password,
+                       imgProfile: ImgProfile,
+                       NameAnimal: NameAnimal,
+                       sexAnimal: sexAnimal,
+                       birthAnimal: birthAnimal,
+                       breedAnimal: breedAnimal,
+                       date: dateFormat
+                   })
+               }).then((response) => response.json())
+                   .then((responseJson) => {
+                       if(responseJson === 'Email'||responseJson === 'Name'){
+                           Alert.alert(
+                               'แจ้งเตือน',
+                               `${responseJson} นี้มีคนใช้ไปแล้วครับ`,
+                               [
+                                   { text: 'ยกเลิก', onPress: () => {}, style: "cancel" }
+                               ],
+                               { cancelable: false },
+                           );
+                       }else{
+                           Alert.alert(
+                               'แจ้งเตือน',
+                               'สมัครสมาชิกเสร็จสิ้น',
+                               [
+                                   { text: 'ตกลง', onPress: () => keyScreens({routeName: LOGIN})},
+                                   { text: 'ยกเลิก', onPress: () => {}, style: "cancel" }
+                               ],
+                               { cancelable: false },
+                           );
+                       }
+                   }).catch((error) => {
+                       console.error(error);
+                       console.log(error);
+                   });
            }else{
                Alert.alert(
                    'แจ้งเตือน',
@@ -234,7 +277,6 @@ class FormRegistration extends Component {
                     <TextInput style={styles.inputBox}
                                underlineColorAndroid='rgba(0,0,0,0)'
                                placeholder={'สายพันธ์'}
-                               secureTextEntry={true}
                                placeholderTextColor = "#d6913a"
                                onChangeText={ TextInputValue => this.setState({ TextInput_breedAnimal : TextInputValue }) }
                     />
@@ -338,6 +380,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         borderBottomWidth: 1,
         paddingRight: 20,
+        width: '75%'
     },
     imageUser: {
         width: 120,
@@ -365,7 +408,6 @@ function mapStateToProps(state) {
 export default connect(
     mapStateToProps,
     (dispatch) => ({
-        navigationActions: bindActionCreators(NavigationActions, dispatch),
-        Flights_Register: bindActionCreators(API.fetchRegister, dispatch),
+        navigationActions: bindActionCreators(NavigationActions, dispatch)
     })
 )(FormRegistration);

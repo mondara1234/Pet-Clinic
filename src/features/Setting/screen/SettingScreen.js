@@ -106,6 +106,7 @@ class settingScreen extends React.PureComponent {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
+                let source = { uri: 'data:image/jpeg;base64,' + response.data };
                 let dataImg = 'data:image/jpeg;base64,' + response.data;
                 this.setState({
                     ImageSource: dataImg,
@@ -135,8 +136,8 @@ class settingScreen extends React.PureComponent {
                     <Content style={{width: '100%', padding: '2%'}}>
                         <View style={styles.container}>
                             <Image
-                                style={styles.image}
                                 source={{uri: this.state.ImageSource}}
+                                style={styles.image}
                             />
                             <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                                 <CommonText text={'เปลี่ยนรูปโปรไฟล์'} style={styles.fontBtnIMG} />

@@ -9,8 +9,9 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import HandleBack from "../../common/components/HandleBack";
 import CommonText from '../../common/components/CommonText';
 import { getOneUser } from '../redux/actions';
-import * as API from '../api/api';
 import { REGISTRATION } from "../router";
+import { SERVER_URL } from "../../../common/constants";
+import { HOME_SCREEN } from "../../Index/router";
 
 class LoingScreen extends Component {
     constructor(props) {
@@ -54,13 +55,27 @@ class LoingScreen extends Component {
             const username = this.state.User;
             const UserNames = `${username}`;
             const Password = this.state.UserPassword;
-            const keyScreen = this.props.navigation;
-            const response = await this.props.FETCH_Login(UserNames, Password);
+            const response = await fetch(`${SERVER_URL}/MYSQL/user/User_Login.php`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: UserNames,
+                    password: Password
+                })
+            }).then((response) => response.json())
+                .then((responseJson) => responseJson)
+                .catch((error) => {
+                    console.error(error);
+                });
+
+            console.log('Login',response);
+
             if(response === 'Data Matched')
             {
-                const result = await this.props.FETCH_ShowUser(UserNames);
-                this.props.REDUCER_ONEDATA(result);
-                keyScreen.navigate('HOME_SCREEN')
+                this.SelectUser(UserNames);
             }
             else{
                 Alert.alert('Error',response);
@@ -68,6 +83,26 @@ class LoingScreen extends Component {
 
         }
     };
+
+    async SelectUser(UserNames) {
+        const result = await fetch(`${SERVER_URL}/MYSQL/user/ShowOneDataList.php`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: UserNames
+            })
+        }).then(response => response.json())
+            .then((responseJson) => responseJson)
+            .catch((error) => {
+                console.error(error);
+            });
+
+        this.props.REDUCER_ONEDATA(result);
+        this.props.navigation.navigate({routeName: HOME_SCREEN});
+    }
 
     render() {
 
@@ -234,8 +269,6 @@ export default connect(
     mapStateToProps,
     (dispatch) => ({
         navigationActions: bindActionCreators(NavigationActions, dispatch),
-        REDUCER_ONEDATA: bindActionCreators(getOneUser, dispatch),
-        FETCH_Login: bindActionCreators(API.fetchLogin, dispatch),
-        FETCH_ShowUser: bindActionCreators(API.fetchSearchUser, dispatch),
+        REDUCER_ONEDATA: bindActionCreators(getOneUser, dispatch)
     })
 )(LoingScreen);
