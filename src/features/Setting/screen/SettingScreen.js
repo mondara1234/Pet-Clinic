@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import { NavigationActions } from "react-navigation";
 import Dialog, { DialogTitle, DialogButton } from 'react-native-popup-dialog';
 import ImagePicker from "react-native-image-picker";
+import moment from "moment/moment";
 import HandleBack from "../../common/components/HandleBack";
 import CommonText from '../../common/components/CommonText';
 import SideMenu from '../../common/components/SideMenu';
@@ -16,8 +17,8 @@ import { HISTORY_SCREEN } from "../../Treatment_History/router";
 import { SETTING_SCREEN } from "../router";
 import { LOGIN } from "../../login/router";
 import { SETLOAD } from "../../Treatment_History/redux/actions";
-import { getUSER_LOGOUT } from "../../login/redux/actions";
-import moment from "moment/moment";
+import { getOneUser, getUSER_LOGOUT } from "../../login/redux/actions";
+import { SERVER_URL } from "../../../common/constants";
 
 class settingScreen extends React.PureComponent {
     constructor(props) {
@@ -63,6 +64,12 @@ class settingScreen extends React.PureComponent {
         this.getdataUser();
     }
 
+    onValueChange(value) {
+        this.setState({
+            sexAnimal: value
+        });
+    }
+
     async getdataUser() {
         const {user} = this.props.Users;
         const nameAnimal = user.map((data) => {return data.nameAnimal});
@@ -71,11 +78,11 @@ class settingScreen extends React.PureComponent {
         const birthAnimal = user.map((data) => {return data.birthAnimal});
         const breedAnimal = user.map((data) => {return data.breedAnimal});
         this.setState({
-            nameAnimal: `${nameAnimal}`,
-            ImageSource: `${picAnimal}`,
-            sexAnimal: `${sexAnimal}`,
-            birthAnimal: moment(`${birthAnimal}`).format("DD/MM/YYYY"),
-            breedAnimal: `${breedAnimal}`
+            nameAnimal: nameAnimal,
+            ImageSource: picAnimal,
+            sexAnimal: sexAnimal,
+            birthAnimal: birthAnimal,
+            breedAnimal: breedAnimal
         })
     }
 
@@ -107,7 +114,6 @@ class settingScreen extends React.PureComponent {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = { uri: 'data:image/jpeg;base64,' + response.data };
                 let dataImg = 'data:image/jpeg;base64,' + response.data;
                 this.setState({
                     ImageSource: dataImg,
@@ -116,6 +122,251 @@ class settingScreen extends React.PureComponent {
             }
         });
     }
+
+    async saveUser() {
+        const {user} = this.props.Users;
+        const id = user.map((data) => {return data.id});
+        const users = user.map((data) => {return data.user});
+        let UserNames = `${users}`;
+        let ids = `${id}`;
+        if(
+            this.state.nameAnimal === ''
+            || this.state.sexAnimal === ''
+            || this.state.birthAnimal === ''
+            || this.state.breedAnimal === ''
+        ){
+            Alert.alert(
+                'แจ้งเตือน',
+                'กรุณากรอกให้ครบ',
+                [
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+        }else {
+            Alert.alert(
+                'แจ้งเตือน',
+                'คุณต้องการแก้ไขข้อมูลสัตว์เลี้ยงของคุณใช่ไหม',
+                [
+                    { text: 'ตกลง', onPress: () => {this.UpdateUser(ids,UserNames);} },
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" }
+                ],
+                { cancelable: false },
+            );
+        }
+    }
+
+    async UpdateUser(ids,UserNames) {
+        const response = await fetch(`${SERVER_URL}/MYSQL/user/UpdateUser.php`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ids: ids,
+                nameAnimal: this.state.nameAnimal,
+                sexAnimal: this.state.sexAnimal,
+                picAnimal: this.state.ImageSource,
+                birthAnimal: this.state.birthAnimal,
+                breedAnimal: this.state.breedAnimal
+            })
+        }).then(response => response.json())
+            .then((responseJson) => responseJson)
+            .catch((error) => {
+                console.error(error);
+            });
+
+        Alert.alert(
+            'แจ้งเตือน',
+            response,
+            [
+                { text: 'ตกลง', onPress: () => {this.SelectUser(UserNames);} },
+            ],
+            { cancelable: false },
+        );
+    }
+
+    async SelectUser(UserNames) {
+        const result = await fetch(`${SERVER_URL}/MYSQL/user/ShowOneDataList.php`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: UserNames
+            })
+        }).then(response => response.json())
+            .then((responseJson) => responseJson)
+            .catch((error) => {
+                console.error(error);
+            });
+
+        this.props.REDUCER_ONEDATA(result);
+        this.getdataUser();
+    }
+
+    async UpdateChangePassword() {
+        Keyboard.dismiss();
+        const {user} = this.props.Users;
+        let id = user.map((data) => { return data.id });
+        let UserName = user.map((data) => { return data.user });
+        let Password = user.map((data) => { return data.password });
+        let UserID = id.toString();
+        let UserNames =`${UserName}`;
+        let Passwords =`${Password}`;
+        let Passwordold = this.state.TextInput_old_Password;
+        let PasswordNew = this.state.TextInput_Password;
+        let PasswordAgain = this.state.TextInput_PasswordAgain;
+
+        if(Passwordold === '' || PasswordNew === '' || PasswordAgain === ''){
+            Alert.alert(
+                'แจ้งเตือน',
+                'กรุณากรอกให้ครบ',
+                [
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+        }else if(Passwordold.length < 6 || PasswordNew.length < 6 || PasswordAgain.length < 6){
+            Alert.alert(
+                'แจ้งเตือน',
+                'รหัสผ่านต้องมี 6 ตัวขึ้นไป',
+                [
+                    {
+                        text: 'ยกเลิก', onPress: () => {}, style: "cancel"
+                    }
+                ],
+                {cancelable: false},
+            );
+        }else if(Passwords !== Passwordold){
+            Alert.alert(
+                'แจ้งเตือน',
+                'รหัสผ่านเดิมไม่ถูกต้อง',
+                [
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+        }else if(PasswordNew !== PasswordAgain){
+            Alert.alert(
+                'แจ้งเตือน',
+                'รหัสผ่านใหม่ทั้งสองไม่ตรงกัน',
+                [
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+
+        }else{
+            const response = await fetch(`${SERVER_URL}/My_SQL/user/UpdateChangePassword.php`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id : UserID,
+                    passwordnew: PasswordNew
+                })
+            }).then(response => response.json())
+                .then((responseJson) =>
+                    console.log(responseJson)
+                )
+                .catch((error) => {
+                    console.error(error);
+                });
+            this.SelectUser(UserNames);
+            this.setState({
+                DialogChange: false,
+                DialogSuccess: true
+            })
+        }
+    };
+
+    async UpdateChangeEmail() {
+        Keyboard.dismiss();
+        const {user} = this.props.Users;
+        let id = user.map((data) => { return data.id });
+        let UserName = user.map((data) => { return data.user });
+        let email = user.map((data) => { return data.email });
+        let UserID = id.toString();
+        let UserNames =`${UserName}`;
+        let emails =`${email}`;
+        let emailold = this.state.TextInput_old_Email;
+        let emailNew = this.state.TextInput_Email;
+        let emailAgain = this.state.TextInput_EmailAgain;
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+
+        if(emailold === '' || emailNew === '' || emailAgain === ''){
+            Alert.alert(
+                'แจ้งเตือน',
+                'กรุณากรอกให้ครบ',
+                [
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+        }else if(
+            reg.test(emailold) !== true
+            || reg.test(emailNew) !== true
+            || reg.test(emailAgain) !== true
+        ){
+            Alert.alert(
+                'แจ้งเตือน',
+                'กรุณากรอก E-mail ให้ถูกต้อง',
+                [
+                    {
+                        text: 'ยกเลิก', onPress: () => {}, style: "cancel"
+                    }
+                ],
+                {cancelable: false},
+            );
+        }else if(emails !== emailold){
+            Alert.alert(
+                'แจ้งเตือน',
+                'อีเมลเดิมไม่ถูกต้อง',
+                [
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+        }else if(emailNew !== emailAgain){
+            Alert.alert(
+                'แจ้งเตือน',
+                'อีเมลใหม่ทั้งสองไม่ตรงกัน',
+                [
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+
+        }else{
+            const response = await fetch(`${SERVER_URL}/My_SQL/user/UpdateChangeEmail.php`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id : UserID,
+                    emailnew: emailNew
+                })
+            }).then(response => response.json())
+                .then((responseJson) =>
+                    console.log(responseJson)
+                )
+                .catch((error) => {
+                    console.error(error);
+                });
+            this.SelectUser(UserNames);
+            this.setState({
+                DialogChangeEmail: false,
+                DialogSuccessEmail: true
+            })
+        }
+    };
 
     render() {
         return (
@@ -129,7 +380,7 @@ class settingScreen extends React.PureComponent {
                                 style={{marginRight: 5}}
                                 onPress={() => {
                                     Keyboard.dismiss();
-                                    //this.save();
+                                    this.saveUser();
                                 }}
                             />
                         </View>
@@ -159,22 +410,38 @@ class settingScreen extends React.PureComponent {
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 0}]}>
                                     <CommonText text={'เพศ :'} style={{fontWeight: 'bold'}} />
-                                    <TextInput style={styles.inputBox}
-                                               underlineColorAndroid='rgba(0,0,0,0)'
-                                               defaultValue={this.state.sexAnimal}
-                                               placeholderTextColor = "#d6913a"
-                                               keyboardType="text"
-                                               onChangeText={TextInputValue => this.setState({sexAnimal: TextInputValue})}
-                                    />
+                                    <Picker
+                                        mode="dropdown"
+                                        style={{ color:'#d6913a', marginBottom: -5 , textDecorationLine: 'underline'}}
+                                        textStyle={{borderBottomWidth: 1, }}
+                                        selectedValue={this.state.sexAnimal}
+                                        onValueChange={this.onValueChange.bind(this)}
+                                    >
+                                        <Picker.Item label={'กรุณาเลือกเพศของสัตว์เลี้ยง'} value="กรุณาเลือกเพศของสัตว์เลี้ยง" />
+                                        <Picker.Item label={'ตัวผู้'} value="ตัวผู้" />
+                                        <Picker.Item label={'ตัวเมีย'} value="ตัวเมีย" />
+                                    </Picker>
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 0}]}>
                                     <CommonText text={'วันเกิด :'} style={{fontWeight: 'bold'}} />
-                                    <TextInput style={styles.inputBox}
-                                               underlineColorAndroid='rgba(0,0,0,0)'
-                                               defaultValue={this.state.birthAnimal}
-                                               placeholderTextColor = "#d6913a"
-                                               keyboardType="text"
-                                               onChangeText={TextInputValue => this.setState({birthAnimal: TextInputValue})}
+                                    <CommonText text={moment(`${this.state.birthAnimal}`).format("DD/MM/YYYY")} style={styles.textDate}/>
+                                    <DatePicker
+                                        style={{width: 45, marginTop: -16}}
+                                        date={this.state.date}
+                                        hideText
+                                        mode="date"
+                                        format="YYYY-MM-DD"
+                                        maxDate={moment().format("YYYY-MM-DD")}
+                                        customStyles={{
+                                            dateIcon: {
+                                                width: 25,
+                                                height: 25,
+                                                marginBottom: -15
+                                            }
+                                        }}
+                                        onDateChange={(fulldate) => {
+                                            this.setState({birthAnimal: fulldate});
+                                        }}
                                     />
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 0, marginBottom: 0}]}>
@@ -224,7 +491,7 @@ class settingScreen extends React.PureComponent {
                                     <DialogButton
                                         text={'ตกลง'}
                                         textStyle={styles.dialogTextButton}
-                                        //onPress={() => {this.UpdateChangePassword()}}
+                                        onPress={() => {this.UpdateChangePassword()}}
                                         style={styles.dialogTitleView}
                                     />,
                                     <DialogButton
@@ -278,7 +545,7 @@ class settingScreen extends React.PureComponent {
                                 }
                                 actions={[//ส่วนของฺbutton
                                     <DialogButton
-                                        text={'ยกเลิก'}
+                                        text={'ตกลง'}
                                         textStyle={styles.dialogTextButton}
                                         onPress={() => {
                                             this.setState({ DialogSuccess: false });
@@ -307,7 +574,7 @@ class settingScreen extends React.PureComponent {
                                     <DialogButton
                                         text={'ตกลง'}
                                         textStyle={styles.dialogTextButton}
-                                        //onPress={() => {this.UpdateChangePassword()}}
+                                        onPress={() => {this.UpdateChangeEmail()}}
                                         style={styles.dialogTitleView}
                                     />,
                                     <DialogButton
@@ -361,7 +628,7 @@ class settingScreen extends React.PureComponent {
                                 }
                                 actions={[//ส่วนของฺbutton
                                     <DialogButton
-                                        text={'ยกเลิก'}
+                                        text={'ตกลง'}
                                         textStyle={styles.dialogTextButton}
                                         onPress={() => {
                                             this.setState({ DialogSuccessEmail: false });
@@ -412,8 +679,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 120,
-        height: 120,
-        marginBottom: 10
+        height: 120
     },
     containerHistory: {
         flex: 1,
@@ -496,5 +762,6 @@ export default connect(
         NavigationActions: bindActionCreators(NavigationActions, dispatch),
         REDUCER_SetLoadinglist: bindActionCreators(SETLOAD, dispatch),
         REDUCER_SetLogOut: bindActionCreators(getUSER_LOGOUT, dispatch),
+        REDUCER_ONEDATA: bindActionCreators(getOneUser, dispatch)
     })
 )(settingScreen);

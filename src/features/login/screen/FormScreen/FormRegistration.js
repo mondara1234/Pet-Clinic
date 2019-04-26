@@ -110,8 +110,7 @@ class FormRegistration extends Component {
                'รหัสผ่านต้องมี 6 ตัวขึ้นไป',
                [
                    {
-                       text: 'ยกเลิก', onPress: () => {
-                       }, style: "cancel"
+                       text: 'ยกเลิก', onPress: () => {}, style: "cancel"
                    }
                ],
                {cancelable: false},
