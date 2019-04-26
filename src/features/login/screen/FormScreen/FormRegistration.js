@@ -300,17 +300,20 @@ class FormRegistration extends Component {
                             }}
                         />
                     </View>
-                    <Picker
-                        mode="dropdown"
-                        style={{ color:'#d6913a', marginBottom: -5 , textDecorationLine: 'underline'}}
-                        textStyle={{borderBottomWidth: 1, }}
-                        selectedValue={this.state.TextInput_sexAnimal}
-                        onValueChange={this.onValueChange.bind(this)}
-                    >
-                        <Picker.Item label={'กรุณาเลือกเพศของสัตว์เลี้ยง'} value="กรุณาเลือกเพศของสัตว์เลี้ยง" />
-                        <Picker.Item label={'ตัวผู้'} value="ตัวผู้" />
-                        <Picker.Item label={'ตัวเมีย'} value="ตัวเมีย" />
-                    </Picker>
+                    <View style={styles.containerText}>
+                        <CommonText text={'เพศ :'} style={{fontWeight: 'bold'}} />
+                        <Picker
+                            mode="dropdown"
+                            style={{ color:'#d6913a', marginBottom: -10 , textDecorationLine: 'underline'}}
+                            textStyle={{borderBottomWidth: 1, }}
+                            selectedValue={this.state.TextInput_sexAnimal}
+                            onValueChange={this.onValueChange.bind(this)}
+                        >
+                            <Picker.Item label={'กรุณาเลือกเพศของสัตว์เลี้ยง'} value="กรุณาเลือกเพศของสัตว์เลี้ยง" />
+                            <Picker.Item label={'ตัวผู้'} value="ตัวผู้" />
+                            <Picker.Item label={'ตัวเมีย'} value="ตัวเมีย" />
+                        </Picker>
+                    </View>
                 </ScrollView>
                 <TouchableOpacity style={styles.button} onPress={this.InsertStudentRecordsToServer}>
                     <View style={styles.containerButton}>
@@ -396,6 +399,14 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30
     },
+    containerText: {
+        margin: 10,
+        marginTop: -15,
+        width: '100%',
+        borderBottomWidth: 1,
+        paddingBottom: -15,
+        paddingTop: 15
+    }
 });
 
 function mapStateToProps(state) {
