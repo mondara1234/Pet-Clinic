@@ -118,16 +118,14 @@ class LoingScreen extends Component {
         return (
             <HandleBack onBack={this.onBack}>
                 <Container style={styles.container} >
-                    <ImageBackground style={styles.backgroundImage}
-                                     //source={{uri: 'https://sv1.picz.in.th/images/2019/02/27/TIiH0R.png'}}
-                    >
+                    <ImageBackground style={styles.backgroundImage}>
                         <Image
                             style={{width: 200, height: 200, marginBottom: '5%'}}
                             source={require('../../../../pulic/assets/img/logo.png')}
                         />
                         <View style={styles.containerView}>
                             <View style={styles.containerText}>
-                                <IconMaterialCommunityIcons name="email" size={30} style={styles.icon}/>
+                                <IconMaterialCommunityIcons name="email" size={30} style={[styles.icon,{marginRight: 5}]} />
                                 <TextInput style={styles.inputBox}
                                            underlineColorAndroid='rgba(0,0,0,0)'
                                            placeholder={'Username'}
@@ -136,8 +134,8 @@ class LoingScreen extends Component {
                                            onChangeText={UserName =>this.setState({User: UserName})}
                                 />
                             </View>
-                            <View style={[styles.containerText,{marginLeft: 20}]}>
-                                <IconFontAwesome name="lock" size={30} style={styles.icon}/>
+                            <View style={[styles.containerText,{marginLeft: 12}]}>
+                                <IconFontAwesome name="lock" size={35} style={[styles.icon,{marginRight: 10}]} />
                                 <TextInput style={styles.inputBox}
                                            underlineColorAndroid='rgba(0,0,0,0)'
                                            placeholder={'Password'}
