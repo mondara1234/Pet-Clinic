@@ -628,7 +628,6 @@ class settingScreen extends React.PureComponent {
                                         style={styles.inputBoxDialog}
                                         underlineColorAndroid='rgba(0,0,0,0)'
                                         placeholder={'E-mail เดิม'}
-                                        secureTextEntry={true}
                                         placeholderTextColor = "#d6913a"
                                         onChangeText={ TextInputValue => this.setState({ TextInput_old_Email : TextInputValue })}
                                     />
@@ -636,7 +635,6 @@ class settingScreen extends React.PureComponent {
                                         style={styles.inputBoxDialog}
                                         underlineColorAndroid='rgba(0,0,0,0)'
                                         placeholder={'E-mail ใหม่'}
-                                        secureTextEntry={true}
                                         placeholderTextColor = "#d6913a"
                                         onChangeText={ TextInputValue => this.setState({ TextInput_Email : TextInputValue })}
                                     />
@@ -644,7 +642,6 @@ class settingScreen extends React.PureComponent {
                                         style={styles.inputBoxDialog}
                                         underlineColorAndroid='rgba(0,0,0,0)'
                                         placeholder={'ยืนยัน E-mail ใหม่'}
-                                        secureTextEntry={true}
                                         placeholderTextColor = "#d6913a"
                                         selectionColor="#fff"
                                         onChangeText={ TextInputValue => this.setState({ TextInput_EmailAgain : TextInputValue })}

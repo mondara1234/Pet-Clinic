@@ -140,7 +140,7 @@ class homeScreen extends React.PureComponent {
                                     <Body style={styles.cardBody}>
                                     <CommonText text={'แจ้งกำหนดการนัดครั้งถัดไป'} size={22} style={{marginBottom: '5%', fontWeight: 'bold'}} />
                                     <View style={[styles.containerText,{width: 250}]}>
-                                        <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold', marginLeft: -30}} />
+                                        <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold'}} />
                                         <CommonText text={this.state.title} size={18} style={{marginLeft: 10, width: 200}} />
                                     </View>
                                     <View style={styles.containerText}>
@@ -201,7 +201,6 @@ const styles = StyleSheet.create({
     },
     containerText: {
         flexDirection: 'row',
-        alignItems: 'center',
         margin: 5,
         marginBottom: 0
     },
