@@ -69,11 +69,20 @@ class HistoryScreen extends React.PureComponent {
             });
         this.props.REDUCER_GetHistory(response);
         const dataHistory = this.props.datahistory.dataList;
-        this.setState({
-            films: dataHistory,
-            setDataHistory: dataHistory,
-            lengthHistory: dataHistory.length
-        })
+        let data = [];
+        if( dataHistory === 'ไม่พบ' ){
+            this.setState({
+                films: data,
+                lengthHistory: data.length
+            })
+        }else{
+            this.setState({
+                films: dataHistory,
+                setDataHistory: dataHistory,
+                lengthHistory: dataHistory.length
+            })
+        }
+
     }
 
     //ไว้รับค่าแล้วค้นหา
