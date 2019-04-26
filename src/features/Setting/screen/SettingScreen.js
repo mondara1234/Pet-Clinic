@@ -177,15 +177,20 @@ class settingScreen extends React.PureComponent {
             .catch((error) => {
                 console.error(error);
             });
-
-        Alert.alert(
-            'แจ้งเตือน',
-            response,
-            [
-                { text: 'ตกลง', onPress: () => {this.SelectUser(UserNames)} },
-            ],
-            { cancelable: false },
-        );
+        if(response === 'อัพเดทสำเร็จ')
+        {
+            Alert.alert(
+                'แจ้งเตือน',
+                response,
+                [
+                    { text: 'ตกลง', onPress: () => {this.SelectUser(UserNames)} },
+                ],
+                { cancelable: false },
+            );
+        }
+        else{
+            Alert.alert('Error',response);
+        }
     }
 
     async SelectUser(UserNames) {
