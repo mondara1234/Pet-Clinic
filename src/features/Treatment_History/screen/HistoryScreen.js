@@ -50,8 +50,19 @@ class HistoryScreen extends React.PureComponent {
     }
 
     async getListHistory() {
-        const response = await fetch(`${SERVER_URL}/MYSQL/History/AllHistory.php`)
-            .then(response => response.json())
+        const {user} = this.props.Users;
+        let UserName = user.map((data) => { return data.user });
+        let UserNames =`${UserName}`;
+        const response = await fetch(`${SERVER_URL}/MYSQL/History/AllHistory.php`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: UserNames
+            })
+        }).then(response => response.json())
             .then((responseJson) => responseJson)
             .catch((error) => {
                 console.error(error);
