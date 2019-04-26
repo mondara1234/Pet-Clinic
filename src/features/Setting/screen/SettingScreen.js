@@ -178,6 +178,11 @@ class settingScreen extends React.PureComponent {
     }
 
     async UpdateUser(ids,UserNames) {
+        const nameAnimal = this.state.nameAnimal;
+        const sexAnimal = this.state.sexAnimal;
+        const ImageSource = this.state.ImageSource;
+        const birthAnimal = this.state.birthAnimal;
+        const breedAnimal = this.state.breedAnimal;
         const response = await fetch(`${SERVER_URL}/MYSQL/user/UpdateUser.php`, {
             method: 'POST',
             headers: {
@@ -186,11 +191,11 @@ class settingScreen extends React.PureComponent {
             },
             body: JSON.stringify({
                 ids: ids,
-                nameAnimal: `${this.state.nameAnimal}`,
-                sexAnimal: `${this.state.sexAnimal}`,
-                picAnimal: `${this.state.ImageSource}`,
-                birthAnimal: `${this.state.birthAnimal}`,
-                breedAnimal: `${this.state.breedAnimal}`
+                nameAnimal: `${nameAnimal}`,
+                sexAnimal: `${sexAnimal}`,
+                picAnimal: `${ImageSource}`,
+                birthAnimal: `${birthAnimal}`,
+                breedAnimal: `${breedAnimal}`
             })
         }).then(response => response.json())
             .then((responseJson) => responseJson)
@@ -198,6 +203,7 @@ class settingScreen extends React.PureComponent {
                 console.error(error);
             });
         console.log('update',response);
+        console.log('ids',ids);
         if(response === 'อัพเดทสำเร็จ')
         {
             Alert.alert(
