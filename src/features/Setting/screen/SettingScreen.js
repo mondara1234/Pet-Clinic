@@ -135,10 +135,12 @@ class settingScreen extends React.PureComponent {
                     </Header>
                     <Content style={{width: '100%', padding: '2%'}}>
                         <View style={styles.container}>
-                            <Image
-                                source={{uri: this.state.ImageSource}}
-                                style={styles.image}
-                            />
+                            <View style={styles.containerimg}>
+                                <Image
+                                    style={styles.image}
+                                    source={{uri: this.state.ImageSource}}
+                                />
+                            </View>
                             <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                                 <CommonText text={'เปลี่ยนรูปโปรไฟล์'} style={styles.fontBtnIMG} />
                             </TouchableOpacity>
@@ -472,6 +474,11 @@ const styles = StyleSheet.create({
     dialogTextTitle: {
         color: '#fff',
         fontSize: 20
+    },
+    containerimg: {
+        borderWidth: 2,
+        borderColor: '#d6913a',
+        margin: '5%'
     }
 
 });
