@@ -300,11 +300,11 @@ class FormRegistration extends Component {
                             }}
                         />
                     </View>
-                    <View style={styles.containerText}>
+                    <View style={[styles.containerText,{width: '100%',}]}>
                         <CommonText text={'เพศ :'} style={{fontWeight: 'bold'}} />
                         <Picker
                             mode="dropdown"
-                            style={{ color:'#d6913a', marginBottom: -10 , textDecorationLine: 'underline'}}
+                            style={{ width: '100%', color:'#d6913a', marginBottom: -10 , textDecorationLine: 'underline'}}
                             textStyle={{borderBottomWidth: 1, }}
                             selectedValue={this.state.TextInput_sexAnimal}
                             onValueChange={this.onValueChange.bind(this)}
@@ -400,9 +400,7 @@ const styles = StyleSheet.create({
         height: 30
     },
     containerText: {
-        margin: 10,
         marginTop: -15,
-        width: '100%',
         borderBottomWidth: 1,
         paddingBottom: -15,
         paddingTop: 15
