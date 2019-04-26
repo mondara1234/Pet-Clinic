@@ -129,7 +129,7 @@ class settingScreen extends React.PureComponent {
         const id = user.map((data) => {return data.id});
         const users = user.map((data) => {return data.user});
         let UserNames = `${users}`;
-        let ids = `${id}`;
+        let ids = id.toString();
         if(
             this.state.nameAnimal === ''
             || this.state.sexAnimal === ''
@@ -182,7 +182,7 @@ class settingScreen extends React.PureComponent {
             'แจ้งเตือน',
             response,
             [
-                { text: 'ตกลง', onPress: () => {this.SelectUser(UserNames);} },
+                { text: 'ตกลง', onPress: () => {this.SelectUser(UserNames)} },
             ],
             { cancelable: false },
         );
