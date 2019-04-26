@@ -4,7 +4,7 @@ import { HEADER_STYLE } from './constants';
 import { HomeRouter } from "../features/Index/router";
 import { SettingRouter, SETTING_SCREEN } from "../features/Setting/router";
 import { HistoryRouter } from "../features/Treatment_History/router";
-import { UserRouter, LOGIN } from "../features/login/router";
+import { UserRouter, LOGIN, REGISTRATION } from "../features/login/router";
 
 export const RootStack = StackNavigator({
     ...HomeRouter,
@@ -12,7 +12,7 @@ export const RootStack = StackNavigator({
     ...HistoryRouter,
     ...UserRouter
 },{
-    initialRouteName: LOGIN,
+    initialRouteName: REGISTRATION,
     navigationOptions: ({navigation}) => ({
         ...HEADER_STYLE
     }),

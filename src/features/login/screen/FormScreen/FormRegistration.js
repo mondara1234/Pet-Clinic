@@ -279,6 +279,18 @@ class FormRegistration extends Component {
                                placeholderTextColor = "#d6913a"
                                onChangeText={ TextInputValue => this.setState({ TextInput_breedAnimal : TextInputValue }) }
                     />
+                    <View style={styles.containerText}>
+                        <Picker
+                            mode="dropdown"
+                            style={{ color:'#d6913a', marginBottom: -10 , textDecorationLine: 'underline'}}
+                            selectedValue={this.state.TextInput_sexAnimal}
+                            onValueChange={this.onValueChange.bind(this)}
+                        >
+                            <Picker.Item label={'กรุณาเลือกเพศของสัตว์เลี้ยง'} value="กรุณาเลือกเพศของสัตว์เลี้ยง" />
+                            <Picker.Item label={'ตัวผู้'} value="ตัวผู้" />
+                            <Picker.Item label={'ตัวเมีย'} value="ตัวเมีย" />
+                        </Picker>
+                    </View>
                     <View style={styles.containerdate}>
                         <CommonText text={this.state.date} style={styles.textDate}/>
                         <DatePicker
@@ -299,20 +311,6 @@ class FormRegistration extends Component {
                                 this.setState({date: fulldate});
                             }}
                         />
-                    </View>
-                    <View style={[styles.containerText,{width: '100%',}]}>
-                        <CommonText text={'เพศ :'} style={{fontWeight: 'bold'}} />
-                        <Picker
-                            mode="dropdown"
-                            style={{ width: '100%', color:'#d6913a', marginBottom: -10 , textDecorationLine: 'underline'}}
-                            textStyle={{borderBottomWidth: 1, }}
-                            selectedValue={this.state.TextInput_sexAnimal}
-                            onValueChange={this.onValueChange.bind(this)}
-                        >
-                            <Picker.Item label={'กรุณาเลือกเพศของสัตว์เลี้ยง'} value="กรุณาเลือกเพศของสัตว์เลี้ยง" />
-                            <Picker.Item label={'ตัวผู้'} value="ตัวผู้" />
-                            <Picker.Item label={'ตัวเมีย'} value="ตัวเมีย" />
-                        </Picker>
                     </View>
                 </ScrollView>
                 <TouchableOpacity style={styles.button} onPress={this.InsertStudentRecordsToServer}>
@@ -400,10 +398,9 @@ const styles = StyleSheet.create({
         height: 30
     },
     containerText: {
-        marginTop: -15,
         borderBottomWidth: 1,
-        paddingBottom: -15,
-        paddingTop: 15
+        marginTop: -5,
+        marginBottom: 12
     }
 });
 
