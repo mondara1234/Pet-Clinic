@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
-import { Thumbnail } from 'native-base';
+import { Thumbnail, Picker } from 'native-base';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
+import DatePicker from 'react-native-datepicker';
 import ImagePicker from "react-native-image-picker";
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import CommonText from '../../../common/components/CommonText'
@@ -18,16 +19,34 @@ class FormRegistration extends Component {
             TextInput_Password: '',
             TextInput_Email: '',
             TextInput_PasswordAgain: '',
+            TextInput_NameAnimal: '',
+            TextInput_sexAnimal: 'กรุณาเลือกเพศของสัตว์เลี้ยง',
+            TextInput_birthAnimal: '',
+            TextInput_breedAnimal: '',
+            date: 'กรุณาเลือกวันเกิดของสัตว์เลี้ยง',
             ImgDefault: 'https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1',
             ImageSource: null,
             data: null
         }
     }
 
+    onValueChange(value) {
+        this.setState({
+            TextInput_sexAnimal: value
+        });
+    }
+
     InsertStudentRecordsToServer = () =>{
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
 
-       if(this.state.TextInput_Name === ''||this.state.TextInput_Email === ''||this.state.TextInput_Password === ''|| this.state.TextInput_PasswordAgain === '' ){
+       if(
+           this.state.TextInput_Name === ''
+           ||this.state.TextInput_Email === ''
+           ||this.state.TextInput_Password === ''
+           || this.state.TextInput_PasswordAgain === ''
+           ||this.state.TextInput_NameAnimal === ''
+           || this.state.TextInput_breedAnimal === ''
+       ){
            Alert.alert(
                'แจ้งเตือน',
                'กรุณากรอกให้ครบ',
@@ -60,6 +79,30 @@ class FormRegistration extends Component {
                ],
                {cancelable: false},
            );
+       }else if(this.state.TextInput_sexAnimal === 'กรุณาเลือกเพศของสัตว์เลี้ยง'){
+           Alert.alert(
+               'แจ้งเตือน',
+               'กรุณาเลือกเพศของสัตว์เลี้ยง',
+               [
+                   {
+                       text: 'ยกเลิก', onPress: () => {
+                       }, style: "cancel"
+                   }
+               ],
+               {cancelable: false},
+           );
+       }else if(this.state.TextInput_birthAnimal === 'กรุณาเลือกวันเกิดของสัตว์เลี้ยง'){
+           Alert.alert(
+               'แจ้งเตือน',
+               'กรุณาเลือกวันเกิดของสัตว์เลี้ยง',
+               [
+                   {
+                       text: 'ยกเลิก', onPress: () => {
+                       }, style: "cancel"
+                   }
+               ],
+               {cancelable: false},
+           );
        }else if(this.state.TextInput_Password.length < 6 || this.state.TextInput_PasswordAgain.length < 6){
            Alert.alert(
                'แจ้งเตือน',
@@ -78,9 +121,13 @@ class FormRegistration extends Component {
                const Name = this.state.TextInput_Name;
                const Email = this.state.TextInput_Email;
                const Password = this.state.TextInput_Password;
+               const NameAnimal = this.state.TextInput_NameAnimal;
+               const sexAnimal = this.state.TextInput_sexAnimal;
+               const birthAnimal = this.state.TextInput_birthAnimal;
+               const breedAnimal = this.state.TextInput_breedAnimal;
                const ImgProfile = this.state.ImageSource ? 'data:image/jpeg;base64,'+this.state.data : this.state.ImgDefault;
                const keyScreens = this.props.keyScreen;
-               this.props.Flights_Register(Name, Email, Password, ImgProfile, keyScreens, dateFormat);
+               this.props.Flights_Register(Name, Email, Password, ImgProfile, NameAnimal, sexAnimal, birthAnimal, breedAnimal, keyScreens, dateFormat);
            }else{
                Alert.alert(
                    'แจ้งเตือน',
@@ -182,36 +229,54 @@ class FormRegistration extends Component {
                                underlineColorAndroid='rgba(0,0,0,0)'
                                placeholder={'ชื่อสัตว์เลี้ยง'}
                                placeholderTextColor = "#d6913a"
-                               onChangeText={ TextInputValue => this.setState({ TextInput_Name : TextInputValue }) }
-                    />
-                    <TextInput style={styles.inputBox}
-                               underlineColorAndroid='rgba(0,0,0,0)'
-                               placeholder={'เพศ'}
-                               placeholderTextColor = "#d6913a"
-                               keyboardType="email-address"
-                               onChangeText={ TextInputValue => this.setState({ TextInput_Email : TextInputValue }) }
-                    />
-                    <TextInput style={styles.inputBox}
-                               underlineColorAndroid='rgba(0,0,0,0)'
-                               placeholder={'วันเกิด'}
-                               secureTextEntry={true}
-                               placeholderTextColor = "#d6913a"
-                               onChangeText={ TextInputValue => this.setState({ TextInput_Password : TextInputValue }) }
+                               onChangeText={ TextInputValue => this.setState({ TextInput_NameAnimal : TextInputValue }) }
                     />
                     <TextInput style={styles.inputBox}
                                underlineColorAndroid='rgba(0,0,0,0)'
                                placeholder={'สายพันธ์'}
                                secureTextEntry={true}
                                placeholderTextColor = "#d6913a"
-                               onChangeText={ TextInputValue => this.setState({ TextInput_PasswordAgain : TextInputValue }) }
+                               onChangeText={ TextInputValue => this.setState({ TextInput_breedAnimal : TextInputValue }) }
                     />
-                    <TouchableOpacity style={styles.button} onPress={this.InsertStudentRecordsToServer}>
-                        <View style={styles.containerButton}>
-                            <IconFontAwesome name="registered" size={30} style={styles.styleIconFontAwesome} />
-                            <CommonText text={this.props.nameRegistration} style={styles.buttonText} />
-                        </View>
-                    </TouchableOpacity>
+                    <View style={styles.containerdate}>
+                        <CommonText text={this.state.date} style={styles.textDate}/>
+                        <DatePicker
+                            style={{width: 45, marginTop: -16}}
+                            date={this.state.date}
+                            hideText
+                            mode="date"
+                            format="YYYY-MM-DD"
+                            maxDate={moment().format("YYYY-MM-DD")}
+                            customStyles={{
+                                dateIcon: {
+                                    width: 25,
+                                    height: 25,
+                                    marginBottom: -15
+                                }
+                            }}
+                            onDateChange={(fulldate) => {
+                                this.setState({date: fulldate});
+                            }}
+                        />
+                    </View>
+                    <Picker
+                        mode="dropdown"
+                        style={{ color:'#d6913a', marginBottom: -5 , textDecorationLine: 'underline'}}
+                        textStyle={{borderBottomWidth: 1, }}
+                        selectedValue={this.state.TextInput_sexAnimal}
+                        onValueChange={this.onValueChange.bind(this)}
+                    >
+                        <Picker.Item label={'กรุณาเลือกเพศของสัตว์เลี้ยง'} value="กรุณาเลือกเพศของสัตว์เลี้ยง" />
+                        <Picker.Item label={'ตัวผู้'} value="ตัวผู้" />
+                        <Picker.Item label={'ตัวเมีย'} value="ตัวเมีย" />
+                    </Picker>
                 </ScrollView>
+                <TouchableOpacity style={styles.button} onPress={this.InsertStudentRecordsToServer}>
+                    <View style={styles.containerButton}>
+                        <IconFontAwesome name="registered" size={30} style={styles.styleIconFontAwesome} />
+                        <CommonText text={this.props.nameRegistration} style={styles.buttonText} />
+                    </View>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -219,6 +284,7 @@ class FormRegistration extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        width: '100%',
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -241,7 +307,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginTop: 20,
         paddingVertical: 10,
-        backgroundColor: '#d6913a'
+        borderColor: '#f5b57f',
+        backgroundColor: '#f5b57f'
     },
     buttonText: {
         fontSize: 20,
@@ -258,6 +325,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    containerdate: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25
+    },
+    textDate: {
+        color: '#d6913a',
+        fontSize: 18,
+        paddingLeft: 10,
+        borderBottomWidth: 1,
+        paddingRight: 20,
     },
     imageUser: {
         width: 120,

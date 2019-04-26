@@ -3,7 +3,7 @@ import { SERVER_URL } from "../../../common/constants";
 import { LOGIN } from "../router";
 
 export const fetchLogin = (UserNames, Password) => dispatch => {
-    return fetch(`${SERVER_URL}/My_SQL/user/User_Login.php`, {
+    return fetch(`${SERVER_URL}/MYSQL/user/User_Login.php`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -21,8 +21,8 @@ export const fetchLogin = (UserNames, Password) => dispatch => {
 
 };
 
-export const fetchRegister = (Name, Email, Password, ImgProfile, keyScreens, dateFormat) => dispatch => {
-    return fetch(`${SERVER_URL}/My_SQL/user/InsertData.php`, {
+export const fetchRegister = (Name, Email, Password, ImgProfile, NameAnimal, sexAnimal, birthAnimal, breedAnimal, keyScreens, dateFormat) => dispatch => {
+    return fetch(`${SERVER_URL}/MYSQL/user/InsertData.php`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -33,6 +33,10 @@ export const fetchRegister = (Name, Email, Password, ImgProfile, keyScreens, dat
             email: Email,
             password: Password,
             imgProfile: ImgProfile,
+            NameAnimal: NameAnimal,
+            sexAnimal: sexAnimal,
+            birthAnimal: birthAnimal,
+            breedAnimal: breedAnimal,
             date: dateFormat
         })
     }).then((response) => response.json())
@@ -64,8 +68,26 @@ export const fetchRegister = (Name, Email, Password, ImgProfile, keyScreens, dat
 
 };
 
+export const fetchSearchUser = (UserNames) => dispatch => {
+    return fetch(`${SERVER_URL}/MYSQL/user/ShowOneDataList.php`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: UserNames
+        })
+    }).then(response => response.json())
+        .then((responseJson) => responseJson)
+        .catch((error) => {
+            console.error(error);
+        });
+
+};
+
 export const fetchUpdateUserName = (UserID, Emails, oldEmails ) => dispatch => {
-    return fetch(`${SERVER_URL}/My_SQL/user/UpdateUserName.php`, {
+    return fetch(`${SERVER_URL}/MYSQL/user/UpdateUserName.php`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -78,19 +100,19 @@ export const fetchUpdateUserName = (UserID, Emails, oldEmails ) => dispatch => {
         })
     }).then(response => response.json())
         .then((responseJson) => {
-                if(responseJson === 'Email'){
-                    Alert.alert(
-                        Trans.tran('general.alert'),
-                        `${responseJson} ${Trans.tran('User.already_people')}`,
-                        [
-                            { text: Trans.tran('general.canceled'), onPress: () => {}, style: "cancel" }
-                        ],
-                        { cancelable: false },
-                    );
-                    return responseJson;
+            if(responseJson === 'Email'){
+                Alert.alert(
+                    Trans.tran('general.alert'),
+                    `${responseJson} ${Trans.tran('User.already_people')}`,
+                    [
+                        { text: Trans.tran('general.canceled'), onPress: () => {}, style: "cancel" }
+                    ],
+                    { cancelable: false },
+                );
+                return responseJson;
             }else{
-                    return responseJson;
-                }
+                return responseJson;
+            }
         })
         .catch((error) => {
             console.error(error);
@@ -98,7 +120,7 @@ export const fetchUpdateUserName = (UserID, Emails, oldEmails ) => dispatch => {
 };
 
 export const fetchUpdateUser = (UserID, Sex, Age, Weight, Height, BMRUser ) => dispatch => {
-    return fetch(`${SERVER_URL}/My_SQL/user/UpdateBMIUser.php`, {
+    return fetch(`${SERVER_URL}/MYSQL/user/UpdateBMIUser.php`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -122,26 +144,8 @@ export const fetchUpdateUser = (UserID, Sex, Age, Weight, Height, BMRUser ) => d
 
 };
 
-export const fetchSearchUser = (UserNames) => dispatch => {
-    return fetch(`${SERVER_URL}/My_SQL/user/ShowOneDataList.php`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: UserNames
-        })
-    }).then(response => response.json())
-        .then((responseJson) => responseJson)
-        .catch((error) => {
-            console.error(error);
-        });
-
-};
-
 export const fetchUpdateUpdateImgUser = (UserID, dataImg) => dispatch => {
-    return fetch(`${SERVER_URL}/My_SQL/user/UpdateImgProfile.php`, {
+    return fetch(`${SERVER_URL}/MYSQL/user/UpdateImgProfile.php`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

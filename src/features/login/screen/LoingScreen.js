@@ -11,7 +11,6 @@ import CommonText from '../../common/components/CommonText';
 import { getOneUser } from '../redux/actions';
 import * as API from '../api/api';
 import { REGISTRATION } from "../router";
-import {HOME_SCREEN} from "../../Index/router";
 
 class LoingScreen extends Component {
     constructor(props) {
@@ -20,8 +19,7 @@ class LoingScreen extends Component {
         this.state = {
             User: '',
             UserPassword: '',
-            editing: true,
-            data_User: []
+            editing: true
         }
     }
 
@@ -43,33 +41,32 @@ class LoingScreen extends Component {
 
     UserLoginFunction = async() =>{
         Keyboard.dismiss();
-        this.props.navigation.navigate(HOME_SCREEN);
-        // if(this.state.User === '' || this.state.UserPassword === '' ){
-        //     Alert.alert(
-        //         'แจ้งเตือน',
-        //         'กรุณากรอกให้ครบ',
-        //         [
-        //             { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
-        //         ],
-        //         { cancelable: false },
-        //     );
-        // }else{
-        //     const username = this.state.User;
-        //     const UserNames = `${username}`;
-        //     const Password = this.state.UserPassword;
-        //     const keyScreen = this.props.navigation;
-        //     const response = await this.props.FETCH_Login(UserNames, Password);
-        //     if(response === 'Data Matched')
-        //     {
-        //         const result = await this.props.FETCH_ShowUser(UserNames);
-        //         this.props.REDUCER_ONEDATA(result);
-        //         keyScreen.navigate('HOME_SCREEN')
-        //     }
-        //     else{
-        //         Alert.alert('Error',response);
-        //     }
-        //
-        // }
+        if(this.state.User === '' || this.state.UserPassword === '' ){
+            Alert.alert(
+                'แจ้งเตือน',
+                'กรุณากรอกให้ครบ',
+                [
+                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                ],
+                { cancelable: false },
+            );
+        }else{
+            const username = this.state.User;
+            const UserNames = `${username}`;
+            const Password = this.state.UserPassword;
+            const keyScreen = this.props.navigation;
+            const response = await this.props.FETCH_Login(UserNames, Password);
+            if(response === 'Data Matched')
+            {
+                const result = await this.props.FETCH_ShowUser(UserNames);
+                this.props.REDUCER_ONEDATA(result);
+                keyScreen.navigate('HOME_SCREEN')
+            }
+            else{
+                Alert.alert('Error',response);
+            }
+
+        }
     };
 
     render() {
@@ -202,7 +199,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginTop: 20,
         paddingVertical: 10,
-        backgroundColor: '#d6913a'
+        borderColor: '#f5b57f',
+        backgroundColor: '#f5b57f'
     },
     buttonText: {
         fontSize: 20,

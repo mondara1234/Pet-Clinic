@@ -216,10 +216,11 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 25,
         borderWidth: 1,
+        borderColor: '#f5b57f',
         marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#d6913a'
+        backgroundColor: '#f5b57f'
     },
     buttonText: {
         fontSize: 18,

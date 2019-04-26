@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         justifyContent: 'center',
         paddingVertical: 16,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom: 5
     },
     signupText: {
         color: 'rgba(0,0,0,0.6)',

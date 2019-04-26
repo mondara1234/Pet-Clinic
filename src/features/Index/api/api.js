@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { SERVER_URL } from "../../../common/constants";
 
 export const InsertSledging = (UserNames, dateFormat, Title, Img, Type, Detail) => dispatch => {
-    return fetch(`${SERVER_URL}/My_SQL/Problem/InsertProblem.php`, {
+    return fetch(`${SERVER_URL}/MYSQL/Problem/InsertProblem.php`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
