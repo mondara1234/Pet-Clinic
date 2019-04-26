@@ -14,7 +14,7 @@ import { HOME_SCREEN } from "../router";
 import { HISTORY_SCREEN } from "../../Treatment_History/router";
 import { SETTING_SCREEN } from "../../Setting/router";
 import { SETLOAD } from "../../Treatment_History/redux/actions";
-import * as APISledging from "../../Index/api/api";
+import { SERVER_URL } from "../../../common/constants";
 
 class SledgingScreen extends React.PureComponent {
     constructor(props) {
@@ -25,6 +25,7 @@ class SledgingScreen extends React.PureComponent {
             user: '',
             title: '',
             Responsible: '',
+            phoneVeterinary: '',
             dateShow: '',
             timeBD: '',
             dateBD: '',
@@ -52,19 +53,21 @@ class SledgingScreen extends React.PureComponent {
         this.getdataSledging();
     }
 
-    async getdataSledging() {
+    getdataSledging() {
         const { dataSladging } = this.props.sledging;
         const user = dataSladging.map((data) => {return data.user});
         const title = dataSladging.map((data) => {return data.title});
         const date = dataSladging.map((data) => {return data.date});
         const time = dataSladging.map((data) => {return data.time});
         const Responsible = dataSladging.map((data) => {return data.Responsible});
+        const phoneVeterinary = dataSladging.map((data) => {return data.phoneVeterinary});
         const dateShow = moment(`${date} ${time}`).format("DD/MM/YYYY HH:mm");
         this.setState({
             user: user,
             title: title,
             dateShow: dateShow,
-            Responsible: Responsible
+            Responsible: Responsible,
+            phoneVeterinary: phoneVeterinary
         })
     }
 
@@ -105,7 +108,7 @@ class SledgingScreen extends React.PureComponent {
                 `คุณต้องการเลื่อนนัดเป็นวันที่: ${this.state.dateShow} ใช่ไหม`,
                 [
                     { text: 'ใช่', onPress: () => {
-                        this.props.FETCH_InsertSledging( user, title, dateBD, time, detail, status, Responsible, old_date );
+                        this.props.InsertSledging( user, title, dateBD, time, detail, status, Responsible, old_date );
                     } },
                     { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
                 ],
@@ -113,6 +116,41 @@ class SledgingScreen extends React.PureComponent {
             );
         }
     }
+
+    async InsertSledging(user, title, dateBD, time, detail, status, Responsible, old_date){
+        const response = await fetch(`${SERVER_URL}/MYSQL/sledging/Insert_Postponement.php`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user: user,
+                title: title,
+                date: dateBD,
+                time: time,
+                detail: detail,
+                Responsible: Responsible,
+                old_date: old_date,
+                status: status
+            })
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                Alert.alert(
+                    'แจ้งเตือน',
+                    responseJson,
+                    [
+                        { text: 'ตกลง', onPress: () => {}, style: "cancel" }
+                    ],
+                    { cancelable: false },
+                );
+            }).catch((error) => {
+                console.error(error);
+            });
+
+        console.log(response);
+    }
+
 
     BtnClear(){ // ปุ่ม x (ลบ)
         let dateFull = moment().format("DD/MM/YYYY HH:mm");
@@ -172,11 +210,11 @@ class SledgingScreen extends React.PureComponent {
                             <CommonText text={'*** หมายเหตุ สามารถติดต่อสอบถามวันที่ว่างของสัตวแพทย์ที่เป็นผู้รับผิดชอบก่อนทำการเลือกวันที่นัดใหม่ได้ โดยติดต่อได้ที่ '} color={'#dd1a24'} />
                             <View style={styles.containerText}>
                                 <CommonText text={'ผู้รับผิดชอบ : '} color={'#dd1a24'} style={{fontWeight: 'bold'}} />
-                                <CommonText text={'นาย กมบพัชร์ พิสุทธิกมล'} />
+                                <CommonText text={this.state.Responsible} />
                             </View>
                             <View style={styles.containerText}>
                                 <CommonText text={'เบอร์โทรศัพท์ : '} color={'#dd1a24'} style={{fontWeight: 'bold'}} />
-                                <CommonText text={'0845157825'} />
+                                <CommonText text={this.state.phoneVeterinary} />
                             </View>
                         </View>
                         <View style={styles.containerTouch}>
@@ -291,7 +329,6 @@ export default connect(
     mapStateToProps,
     (dispatch) => ({
         NavigationActions: bindActionCreators(NavigationActions, dispatch),
-        REDUCER_SetLoadinglist: bindActionCreators(SETLOAD, dispatch),
-        FETCH_InsertSledging: bindActionCreators(APISledging.InsertSledging, dispatch)
+        REDUCER_SetLoadinglist: bindActionCreators(SETLOAD, dispatch)
     })
 )(SledgingScreen);

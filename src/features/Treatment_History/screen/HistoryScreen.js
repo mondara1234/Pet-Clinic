@@ -1,6 +1,6 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View, BackHandler, Alert, Keyboard, Image } from 'react-native';
-import { Container } from 'native-base';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View, FlatList, BackHandler, Alert, Keyboard } from 'react-native';
+import { Container, Body, ListItem } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { connect } from "react-redux";

@@ -109,32 +109,35 @@ class homeScreen extends React.PureComponent {
         return (
             <HandleBack onBack={this.onBack}>
                 <Container>
-                    <View style={styles.container}>
-                        <Image
-                            source={{uri: this.state.picAnimal}}
-                            style={styles.image}
-                        />
-                        <View style={{ marginBottom: 15 }}>
-                            <View style={[styles.containerText,{marginTop: 30}]}>
-                                <CommonText text={'ชื่อ :'} style={{fontWeight: 'bold', marginLeft: '19.5%'}} />
-                                <CommonText text={this.state.nameAnimal} style={{marginLeft: 10}} />
+                    <Content style={{width: '100%'}}>
+                        <View style={styles.container}>
+                            <View style={styles.containerimg}>
+                                <Image
+                                    style={styles.image}
+                                    source={{uri: this.state.picAnimal}}
+                                />
                             </View>
-                            <View style={[styles.containerText,{marginTop: 5}]}>
-                                <CommonText text={'เพศ :'} style={{fontWeight: 'bold', marginLeft: '16.5%'}} />
-                                <CommonText text={this.state.sexAnimal} style={{marginLeft: 10}} />
+                            <View style={{ marginBottom: 15 }}>
+                                <View style={[styles.containerText,{marginTop: 30}]}>
+                                    <CommonText text={'ชื่อ :'} style={{fontWeight: 'bold', marginLeft: '19.5%'}} />
+                                    <CommonText text={this.state.nameAnimal} style={{marginLeft: 10}} />
+                                </View>
+                                <View style={[styles.containerText,{marginTop: 5}]}>
+                                    <CommonText text={'เพศ :'} style={{fontWeight: 'bold', marginLeft: '16.5%'}} />
+                                    <CommonText text={this.state.sexAnimal} style={{marginLeft: 10}} />
+                                </View>
+                                <View style={[styles.containerText,{marginTop: 5}]}>
+                                    <CommonText text={'วันเกิด :'} style={{fontWeight: 'bold', marginLeft: '7.5%'}} />
+                                    <CommonText text={this.state.birthAnimal} style={{marginLeft: 10}} />
+                                </View>
+                                <View style={[styles.containerText,{marginTop: 5}]}>
+                                    <CommonText text={'สายพันธ์ :'} style={{fontWeight: 'bold'}} />
+                                    <CommonText text={this.state.breedAnimal} style={{marginLeft: 10}} />
+                                </View>
                             </View>
-                            <View style={[styles.containerText,{marginTop: 5}]}>
-                                <CommonText text={'วันเกิด :'} style={{fontWeight: 'bold', marginLeft: '7.5%'}} />
-                                <CommonText text={this.state.birthAnimal} style={{marginLeft: 10}} />
-                            </View>
-                            <View style={[styles.containerText,{marginTop: 5}]}>
-                                <CommonText text={'สายพันธ์ :'} style={{fontWeight: 'bold'}} />
-                                <CommonText text={this.state.breedAnimal} style={{marginLeft: 10}} />
-                            </View>
-                        </View>
-                        <Card style={styles.cardSchedule}>
-                            <CardItem>
-                                <Body style={styles.cardBody}>
+                            <Card style={styles.cardSchedule}>
+                                <CardItem>
+                                    <Body style={styles.cardBody}>
                                     <CommonText text={'แจ้งกำหนดการนัดครั้งถัดไป'} size={22} style={{marginBottom: '5%', fontWeight: 'bold'}} />
                                     <View style={[styles.containerText,{width: 250}]}>
                                         <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold', marginLeft: -30}} />
@@ -152,17 +155,18 @@ class homeScreen extends React.PureComponent {
                                         <CommonText text={'เวลา : '} size={20} style={{fontWeight: 'bold', marginLeft: -60}} />
                                         <CommonText text={this.state.time} size={20} style={{marginLeft: 10}} />
                                     </View>
-                            </Body>
-                        </CardItem>
-                        </Card>
-                        <View style={styles.containerSliding}>
-                            <TouchableOpacity
-                                onPress={ () => this.props.navigation.navigate({routeName: SLEDGING_SCREEN})}
-                            >
-                                <CommonText text={'ขอเลื่อนการนัด...'} size={18} style={{fontWeight: 'bold'}} />
-                            </TouchableOpacity>
+                                    </Body>
+                                </CardItem>
+                            </Card>
+                            <View style={styles.containerSliding}>
+                                <TouchableOpacity
+                                    onPress={ () => this.props.navigation.navigate({routeName: SLEDGING_SCREEN})}
+                                >
+                                    <CommonText text={'ขอเลื่อนการนัด...'} size={18} style={{fontWeight: 'bold'}} />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
+                    </Content>
                     <SideMenu
                         homeScreen={() => {
                             this.props.REDUCER_SetLoadinglist();
@@ -220,6 +224,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
         marginRight: '3%'
+    },
+    containerimg: {
+        borderWidth: 2,
+        borderColor: '#d6913a',
+        margin: '5%'
     }
 });
 
