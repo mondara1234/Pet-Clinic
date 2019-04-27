@@ -168,7 +168,6 @@ class FormRegistration extends Component {
                        }
                    }).catch((error) => {
                        console.error(error);
-                       console.log(error);
                    });
            }else{
                Alert.alert(

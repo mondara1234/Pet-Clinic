@@ -202,8 +202,6 @@ class settingScreen extends React.PureComponent {
             .catch((error) => {
                 console.error(error);
             });
-        console.log('update',response);
-        console.log('ids',ids);
         if(response === 'อัพเดทสำเร็จ')
         {
             Alert.alert(
@@ -258,7 +256,7 @@ class settingScreen extends React.PureComponent {
                 'แจ้งเตือน',
                 'กรุณากรอกให้ครบ',
                 [
-                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                    { text: 'ตกลง', onPress: () => {}, style: "cancel" },
                 ],
                 { cancelable: false },
             );
@@ -268,7 +266,7 @@ class settingScreen extends React.PureComponent {
                 'รหัสผ่านต้องมี 6 ตัวขึ้นไป',
                 [
                     {
-                        text: 'ยกเลิก', onPress: () => {}, style: "cancel"
+                        text: 'ตกลง', onPress: () => {}, style: "cancel"
                     }
                 ],
                 {cancelable: false},
@@ -278,7 +276,7 @@ class settingScreen extends React.PureComponent {
                 'แจ้งเตือน',
                 'รหัสผ่านเดิมไม่ถูกต้อง',
                 [
-                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                    { text: 'ตกลง', onPress: () => {}, style: "cancel" },
                 ],
                 { cancelable: false },
             );
@@ -287,13 +285,13 @@ class settingScreen extends React.PureComponent {
                 'แจ้งเตือน',
                 'รหัสผ่านใหม่ทั้งสองไม่ตรงกัน',
                 [
-                    { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
+                    { text: 'ตกลง', onPress: () => {}, style: "cancel" },
                 ],
                 { cancelable: false },
             );
 
         }else{
-            const response = await fetch(`${SERVER_URL}/My_SQL/user/UpdateChangePassword.php`, {
+            const response = await fetch(`${SERVER_URL}/MYSQL/user/UpdateChangePassword.php`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -301,20 +299,34 @@ class settingScreen extends React.PureComponent {
                 },
                 body: JSON.stringify({
                     id : UserID,
-                    passwordnew: PasswordNew
+                    newpassword: `${PasswordNew}`
                 })
             }).then(response => response.json())
-                .then((responseJson) =>
-                    console.log(responseJson)
-                )
+                .then((responseJson) =>responseJson)
                 .catch((error) => {
                     console.error(error);
                 });
-            this.SelectUser(UserNames);
-            this.setState({
-                DialogChange: false,
-                DialogSuccess: true
-            })
+
+                if( response === 'อัพเดทสำเร็จ'){
+                    this.SelectUser(UserNames);
+                    this.setState({
+                        DialogChange: false,
+                        DialogSuccess: true
+                    })
+                }else{
+                    this.setState({
+                        DialogChange: false
+                    });
+
+                    Alert.alert(
+                        'แจ้งเตือน',
+                        response,
+                        [
+                            { text: 'ตกลง', onPress: () => {}, style: "cancel" },
+                        ],
+                        { cancelable: false },
+                    );
+                }
         }
     };
 
@@ -376,7 +388,7 @@ class settingScreen extends React.PureComponent {
             );
 
         }else{
-            const response = await fetch(`${SERVER_URL}/My_SQL/user/UpdateChangeEmail.php`, {
+            const response = await fetch(`${SERVER_URL}/MYSQL/user/UpdateChangeEmail.php`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -387,17 +399,30 @@ class settingScreen extends React.PureComponent {
                     emailnew: emailNew
                 })
             }).then(response => response.json())
-                .then((responseJson) =>
-                    console.log(responseJson)
-                )
+                .then((responseJson) =>responseJson)
                 .catch((error) => {
                     console.error(error);
                 });
-            this.SelectUser(UserNames);
-            this.setState({
-                DialogChangeEmail: false,
-                DialogSuccessEmail: true
-            })
+            if( response === 'อัพเดทสำเร็จ'){
+                this.SelectUser(UserNames);
+                this.setState({
+                    DialogChangeEmail: false,
+                    DialogSuccessEmail: true
+                })
+            }else{
+                this.setState({
+                    DialogChangeEmail: false
+                });
+
+                Alert.alert(
+                    'แจ้งเตือน',
+                    response,
+                    [
+                        { text: 'ตกลง', onPress: () => {}, style: "cancel" },
+                    ],
+                    { cancelable: false },
+                );
+            }
         }
     };
 

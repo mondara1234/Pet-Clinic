@@ -71,8 +71,6 @@ class LoingScreen extends Component {
                     console.error(error);
                 });
 
-            console.log('Login',response);
-
             if(response === 'Data Matched')
             {
                 this.SelectUser(UserNames);

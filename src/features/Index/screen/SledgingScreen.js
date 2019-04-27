@@ -147,8 +147,6 @@ class SledgingScreen extends React.PureComponent {
             }).catch((error) => {
                 console.error(error);
             });
-
-        console.log(response);
     }
 
 
