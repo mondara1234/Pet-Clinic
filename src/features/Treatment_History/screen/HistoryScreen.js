@@ -69,20 +69,11 @@ class HistoryScreen extends React.PureComponent {
             });
         this.props.REDUCER_GetHistory(response);
         const dataHistory = this.props.datahistory.dataList;
-        let data = [];
-        if( dataHistory === 'ไม่พบ' ){
-            this.setState({
-                films: data,
-                lengthHistory: data.length
-            })
-        }else{
-            this.setState({
-                films: dataHistory,
-                setDataHistory: dataHistory,
-                lengthHistory: dataHistory.length
-            })
-        }
-
+        this.setState({
+            films: dataHistory,
+            setDataHistory: dataHistory,
+            lengthHistory: dataHistory.length
+        })
     }
 
     //ไว้รับค่าแล้วค้นหา
@@ -100,6 +91,9 @@ class HistoryScreen extends React.PureComponent {
     }
 
     async SearchHistory(value) {
+        const {user} = this.props.Users;
+        let UserName = user.map((data) => { return data.user });
+        let UserNames =`${UserName}`;
         let valueName = `${value}`;
         const response = await fetch(`${SERVER_URL}/MYSQL/History/SeachHistoryDate.php`, {
             method: 'POST',
@@ -108,7 +102,8 @@ class HistoryScreen extends React.PureComponent {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                historyDate : valueName
+                historyDate : valueName,
+                username: UserNames
             })
         }).then(response => response.json())
             .then((responseJson) => responseJson)
@@ -189,8 +184,8 @@ class HistoryScreen extends React.PureComponent {
                                 <ActivityIndicator size="large" color="#0000ff" />
                             </View>
                             :this.state.lengthHistory === 0 ?
-                                <View style={{flex: 1}}>
-                                    <CommonText text={'ไม่พบข้อมูล'} style={{fontSize: 30, marginTop: '40%'}} />
+                                <View style={styles.containerNo}>
+                                    <CommonText text={'ไม่พบข้อมูล'} style={{fontSize: 30}} />
 
                                 </View>
                                 :
@@ -216,11 +211,11 @@ class HistoryScreen extends React.PureComponent {
                             this.props.REDUCER_SetLoadinglist();
                             this.props.navigation.navigate(HOME_SCREEN);
                         }}
-                        symptomScreen={() => {
+                        historyScreen={() => {
                             this.props.REDUCER_SetLoadinglist();
                             this.props.navigation.navigate(HISTORY_SCREEN);
                         }}
-                        HistoryScreen={() => {
+                        settingScreen={() => {
                             this.props.REDUCER_SetLoadinglist();
                             this.props.navigation.navigate(SETTING_SCREEN);
                         }}
@@ -249,6 +244,12 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F4F4F4',
         flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    containerNo: {
+        flex: 1,
+        height: '90%',
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -339,7 +340,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return{
-        datahistory: state.dataHistory
+        datahistory: state.dataHistory,
+        Users: state.dataUser
     };
 }
 

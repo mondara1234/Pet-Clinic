@@ -90,7 +90,7 @@ class homeScreen extends React.PureComponent {
             .catch((error) => {
                 console.error(error);
             });
-            console.log('การแจ้งนัด',response);
+
         if( response.length === 0 ){
             this.setState({
                 title: ''
@@ -118,10 +118,12 @@ class homeScreen extends React.PureComponent {
                 <Container>
                     <Content style={{width: '100%'}}>
                         <View style={styles.container}>
-                            <Image
-                                style={{width: 120, height: 120}}
-                                source={{uri: this.state.ImageSource}}
-                            />
+                            <View style={styles.containerimg}>
+                                <Image
+                                    style={{width: 120, height: 120}}
+                                    source={{uri: this.state.ImageSource}}
+                                />
+                            </View>
                             <View style={{ marginBottom: 15 }}>
                                 <View style={[styles.containerText,{marginTop: 30}]}>
                                     <CommonText text={'ชื่อ :'} style={{fontWeight: 'bold', marginLeft: '19.5%'}} />
@@ -148,7 +150,7 @@ class homeScreen extends React.PureComponent {
                                              <CommonText text={'ยังไม่มีการนัด'} size={24} style={{ fontWeight: 'bold'}} />
                                          </View>
                                         :
-                                        <View style={{width: '100%'}}>
+                                        <View style={styles.cardBody}>
                                             <CommonText text={'แจ้งกำหนดการนัดครั้งถัดไป'} size={22} style={{marginBottom: '5%', fontWeight: 'bold'}} />
                                             <View style={[styles.containerText,{width: 250}]}>
                                                 <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold', marginLeft: -30}} />
@@ -188,11 +190,11 @@ class homeScreen extends React.PureComponent {
                             this.props.REDUCER_SetLoadinglist();
                             this.props.navigation.navigate(HOME_SCREEN);
                         }}
-                        symptomScreen={() => {
+                        historyScreen={() => {
                             this.props.REDUCER_SetLoadinglist();
                             this.props.navigation.navigate(HISTORY_SCREEN);
                         }}
-                        herbScreen={() => {
+                        settingScreen={() => {
                             this.props.REDUCER_SetLoadinglist();
                             this.props.navigation.navigate(SETTING_SCREEN);
                         }}
@@ -242,6 +244,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
         marginRight: '3%'
+    },
+    containerimg: {
+        borderWidth: 2,
+        borderColor: '#d6913a'
     }
 });
 

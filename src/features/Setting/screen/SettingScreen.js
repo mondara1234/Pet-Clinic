@@ -681,7 +681,7 @@ class settingScreen extends React.PureComponent {
                             this.props.REDUCER_SetLoadinglist();
                             this.props.navigation.navigate(HOME_SCREEN);
                         }}
-                        symptomScreen={() => {
+                        historyScreen={() => {
                             this.props.REDUCER_SetLoadinglist();
                             this.props.navigation.navigate(HISTORY_SCREEN);
                         }}

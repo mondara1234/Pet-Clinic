@@ -19,14 +19,14 @@ const SideMenu = (props) => {
             </Button>
             <Button
                 style={styles.button}
-                onPress={ props.symptomScreen }
+                onPress={ props.historyScreen }
             >
                 <IconFontAwesome name="history" size={30} style={styles.icon} />
                 <CommonText text={'ประวัติการรักษา'} style={[styles.Text,{marginLeft: -3}]} />
             </Button>
             <Button
                 style={styles.button}
-                onPress={ props.herbScreen }
+                onPress={ props.settingScreen }
             >
                 <IconMaterialCommunityIcons name="settings-outline" size={30} style={styles.icon} />
                 <CommonText text={'ตั้งค่า'} style={styles.Text} />
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
 
 SideMenu.propTypes = {
     homeScreen: PropTypes.func.isRequired,
-    herbScreen: PropTypes.func.isRequired,
-    symptomScreen: PropTypes.func.isRequired
+    historyScreen: PropTypes.func.isRequired,
+    settingScreen: PropTypes.func.isRequired
 };
 
 export default SideMenu;
