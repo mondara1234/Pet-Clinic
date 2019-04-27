@@ -90,22 +90,27 @@ class homeScreen extends React.PureComponent {
             .catch((error) => {
                 console.error(error);
             });
-
-        this.props.REDUCER_Searchledging(response);
-
-        const { dataSladging } = this.props.sledging;
-        const title = dataSladging.map((data) => {return data.title});
-        const date = dataSladging.map((data) => {return data.date});
-        const times = dataSladging.map((data) => {return data.time});
-        const Responsible = dataSladging.map((data) => {return data.Responsible});
-        const phoneVeterinary = dataSladging.map((data) => {return data.phoneVeterinary});
-        this.setState({
-            title: title,
-            date: moment(`${date}`).format("DD/MM/YYYY"),
-            time: times,
-            Responsible: Responsible,
-            phoneVeterinary: phoneVeterinary
-        })
+            console.log('การแจ้งนัด',response);
+        if( response.length === 0 ){
+            this.setState({
+                title: ''
+            })
+        }else{
+            this.props.REDUCER_Searchledging(response);
+            const { dataSladging } = this.props.sledging;
+            const title = dataSladging.map((data) => {return data.title});
+            const date = dataSladging.map((data) => {return data.date});
+            const times = dataSladging.map((data) => {return data.time});
+            const Responsible = dataSladging.map((data) => {return data.Responsible});
+            const phoneVeterinary = dataSladging.map((data) => {return data.phoneVeterinary});
+            this.setState({
+                title: title,
+                date: moment(`${date}`).format("DD/MM/YYYY"),
+                time: times,
+                Responsible: Responsible,
+                phoneVeterinary: phoneVeterinary
+            })
+        }
     }
     render() {
         return (
@@ -138,32 +143,43 @@ class homeScreen extends React.PureComponent {
                             <Card style={styles.cardSchedule}>
                                 <CardItem>
                                     <Body style={styles.cardBody}>
-                                    <CommonText text={'แจ้งกำหนดการนัดครั้งถัดไป'} size={22} style={{marginBottom: '5%', fontWeight: 'bold'}} />
-                                    <View style={[styles.containerText,{width: 250}]}>
-                                        <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold'}} />
-                                        <CommonText text={this.state.title} size={18} style={{marginLeft: 10, width: 200}} />
-                                    </View>
-                                    <View style={styles.containerText}>
-                                        <CommonText text={'ผู้รับผิดชอบ : '} size={18} style={{fontWeight: 'bold'}} />
-                                        <CommonText text={this.state.Responsible} size={18} style={{marginLeft: 10}} />
-                                    </View>
-                                    <View style={[styles.containerText,{marginTop: 20}]}>
-                                        <CommonText text={'วันที่ : '} size={20} style={{fontWeight: 'bold', marginLeft: -21}} />
-                                        <CommonText text={this.state.date} size={20} style={{marginLeft: 10}} />
-                                    </View>
-                                    <View style={styles.containerText}>
-                                        <CommonText text={'เวลา : '} size={20} style={{fontWeight: 'bold', marginLeft: -60}} />
-                                        <CommonText text={this.state.time} size={20} style={{marginLeft: 10}} />
-                                    </View>
+                                    {this.state.title === '' ?
+                                         <View style={styles.containerNo}>
+                                             <CommonText text={'ยังไม่มีการนัด'} size={24} style={{ fontWeight: 'bold'}} />
+                                         </View>
+                                        :
+                                        <View style={{width: '100%'}}>
+                                            <CommonText text={'แจ้งกำหนดการนัดครั้งถัดไป'} size={22} style={{marginBottom: '5%', fontWeight: 'bold'}} />
+                                            <View style={[styles.containerText,{width: 250}]}>
+                                                <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold', marginLeft: -30}} />
+                                                <CommonText text={this.state.title} size={18} style={{marginLeft: 10, width: 200}} />
+                                            </View>
+                                            <View style={styles.containerText}>
+                                                <CommonText text={'ผู้รับผิดชอบ : '} size={18} style={{fontWeight: 'bold'}} />
+                                                <CommonText text={this.state.Responsible} size={18} style={{marginLeft: 10}} />
+                                            </View>
+                                            <View style={[styles.containerText,{marginTop: 20}]}>
+                                                <CommonText text={'วันที่ : '} size={20} style={{fontWeight: 'bold', marginLeft: -21}} />
+                                                <CommonText text={this.state.date} size={20} style={{marginLeft: 10}} />
+                                            </View>
+                                            <View style={styles.containerText}>
+                                                <CommonText text={'เวลา : '} size={20} style={{fontWeight: 'bold', marginLeft: -60}} />
+                                                <CommonText text={this.state.time} size={20} style={{marginLeft: 10}} />
+                                            </View>
+                                        </View>
+                                    }
                                     </Body>
                                 </CardItem>
                             </Card>
                             <View style={styles.containerSliding}>
-                                <TouchableOpacity
-                                    onPress={ () => this.props.navigation.navigate({routeName: SLEDGING_SCREEN})}
-                                >
-                                    <CommonText text={'ขอเลื่อนการนัด...'} size={18} style={{fontWeight: 'bold'}} />
-                                </TouchableOpacity>
+                                {this.state.title !== '' ?
+                                    <TouchableOpacity
+                                        onPress={ () => this.props.navigation.navigate({routeName: SLEDGING_SCREEN})}
+                                    >
+                                        <CommonText text={'ขอเลื่อนการนัด...'} size={18} style={{fontWeight: 'bold'}} />
+                                    </TouchableOpacity>
+                                    :null
+                                }
                             </View>
                         </View>
                     </Content>
@@ -199,8 +215,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: '10%'
     },
+    containerNo: {
+        flex: 1,
+        height: 200,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     containerText: {
         flexDirection: 'row',
+        alignItems: 'center',
         margin: 5,
         marginBottom: 0
     },
