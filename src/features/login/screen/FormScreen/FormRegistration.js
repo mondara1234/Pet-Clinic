@@ -20,6 +20,8 @@ class FormRegistration extends Component {
             TextInput_Password: '',
             TextInput_Email: '',
             TextInput_PasswordAgain: '',
+            TextInput_MyName: '',
+            TextInput_Phone: '',
             TextInput_NameAnimal: '',
             TextInput_sexAnimal: 'กรุณาเลือกเพศของสัตว์เลี้ยง',
             TextInput_birthAnimal: '',
@@ -44,9 +46,11 @@ class FormRegistration extends Component {
            this.state.TextInput_Name === ''
            ||this.state.TextInput_Email === ''
            ||this.state.TextInput_Password === ''
-           || this.state.TextInput_PasswordAgain === ''
+           ||this.state.TextInput_PasswordAgain === ''
            ||this.state.TextInput_NameAnimal === ''
-           || this.state.TextInput_breedAnimal === ''
+           ||this.state.TextInput_breedAnimal === ''
+           ||this.state.TextInput_MyName === ''
+           ||this.state.TextInput_Phone === ''
        ){
            Alert.alert(
                'แจ้งเตือน',
@@ -72,6 +76,18 @@ class FormRegistration extends Component {
            Alert.alert(
                'แจ้งเตือน',
                'กรุณากรอก E-mail ให้ถูกต้อง',
+               [
+                   {
+                       text: 'ยกเลิก', onPress: () => {
+                       }, style: "cancel"
+                   }
+               ],
+               {cancelable: false},
+           );
+       }else if(this.state.TextInput_Phone.length != 10){
+           Alert.alert(
+               'แจ้งเตือน',
+               'กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก',
                [
                    {
                        text: 'ยกเลิก', onPress: () => {
@@ -121,6 +137,8 @@ class FormRegistration extends Component {
                const Name = this.state.TextInput_Name;
                const Email = this.state.TextInput_Email;
                const Password = this.state.TextInput_Password;
+               const Myname = this.state.TextInput_MyName;
+               const Phone = this.state.TextInput_Phone;
                const NameAnimal = this.state.TextInput_NameAnimal;
                const sexAnimal = this.state.TextInput_sexAnimal;
                const birthAnimal = this.state.TextInput_birthAnimal;
@@ -137,6 +155,8 @@ class FormRegistration extends Component {
                        name: Name,
                        email: Email,
                        password: Password,
+                       myname: Myname,
+                       phone: Phone,
                        imgProfile: ImgProfile,
                        NameAnimal: NameAnimal,
                        sexAnimal: sexAnimal,
@@ -226,7 +246,7 @@ class FormRegistration extends Component {
                     contentContainerStyle={{width: '100%'}}
                     showsVerticalScrollIndicator={false}
                 >
-                    <CommonText text={'ข้อมูลผู้ใช้'} size={20} style={{fontWeight:'bold', marginTop: '2%'}} />
+                    <CommonText text={'ข้อมูลผู้ใช้'} size={20} style={{fontWeight:'bold'}} />
                     <TextInput style={styles.inputBox}
                                underlineColorAndroid='rgba(0,0,0,0)'
                                placeholder={'ชื่อผู้ใช้'}
@@ -254,6 +274,19 @@ class FormRegistration extends Component {
                                placeholderTextColor = "#d6913a"
                                onChangeText={ TextInputValue => this.setState({ TextInput_PasswordAgain : TextInputValue }) }
                     />
+                    <TextInput style={styles.inputBox}
+                               underlineColorAndroid='rgba(0,0,0,0)'
+                               placeholder={'ชื่อ-นามสกุล'}
+                               placeholderTextColor = "#d6913a"
+                               onChangeText={ TextInputValue => this.setState({ TextInput_MyName : TextInputValue }) }
+                    />
+                    <TextInput style={styles.inputBox}
+                               underlineColorAndroid='rgba(0,0,0,0)'
+                               placeholder={'เบอร์โทรศัพท์'}
+                               secureTextEntry={true}
+                               placeholderTextColor = "#d6913a"
+                               onChangeText={ TextInputValue => this.setState({ TextInput_Phone : TextInputValue }) }
+                    />
 
                     <View style={{alignItems: 'center'}}>
                         <CommonText text={'ข้อมูลสัตว์เลี้ยง'} size={20} style={{fontWeight:'bold', marginTop: '2%'}} />
@@ -274,7 +307,7 @@ class FormRegistration extends Component {
                     />
                     <TextInput style={styles.inputBox}
                                underlineColorAndroid='rgba(0,0,0,0)'
-                               placeholder={'สายพันธ์'}
+                               placeholder={'สายพันธ์ุ'}
                                placeholderTextColor = "#d6913a"
                                onChangeText={ TextInputValue => this.setState({ TextInput_breedAnimal : TextInputValue }) }
                     />
@@ -343,16 +376,16 @@ const styles = StyleSheet.create({
         paddingBottom: 5
     },
     button: {
-        width: 250,
+        width: 200,
         borderRadius: 25,
         borderWidth: 1,
-        marginTop: 20,
-        paddingVertical: 10,
+        marginTop: 10,
+        paddingVertical: 5,
         borderColor: '#f5b57f',
         backgroundColor: '#f5b57f'
     },
     buttonText: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: '500',
         color: '#ffffff',
         textAlign: 'center'
@@ -382,15 +415,14 @@ const styles = StyleSheet.create({
         width: '75%'
     },
     imageUser: {
-        width: 120,
-        height: 120,
-        marginTop: 10,
+        width: 100,
+        height: 100,
+        marginTop: 5,
         borderRadius: 80
     },
     touchImage: {
         marginTop: -30,
-        marginLeft: 90,
-        marginBottom: 10
+        marginLeft: 70
     },
     image: {
         width: 30,

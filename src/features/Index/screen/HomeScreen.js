@@ -156,7 +156,7 @@ class homeScreen extends React.PureComponent {
                                                 <CommonText text={'หัวข้อการนัด : '} size={18} style={{fontWeight: 'bold', marginLeft: -30}} />
                                                 <CommonText text={this.state.title} size={18} style={{marginLeft: 10, width: 200}} />
                                             </View>
-                                            <View style={styles.containerText}>
+                                            <View style={[styles.containerText,{width: 300}]}>
                                                 <CommonText text={'ผู้รับผิดชอบ : '} size={18} style={{fontWeight: 'bold'}} />
                                                 <CommonText text={this.state.Responsible} size={18} style={{marginLeft: 10}} />
                                             </View>
@@ -225,7 +225,6 @@ const styles = StyleSheet.create({
     },
     containerText: {
         flexDirection: 'row',
-        alignItems: 'center',
         margin: 5,
         marginBottom: 0
     },

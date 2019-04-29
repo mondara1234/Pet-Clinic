@@ -42,6 +42,8 @@ class settingScreen extends React.PureComponent {
             sexAnimal: '',
             birthAnimal: '',
             breedAnimal: '',
+            nameuser: '',
+            phone: ''
         };
     }
 
@@ -73,6 +75,8 @@ class settingScreen extends React.PureComponent {
 
     async getdataUser() {
         const {user} = this.props.Users;
+        const nameuser = user.map((data) => {return data.nameuser});
+        const phone = user.map((data) => {return data.phone});
         const nameAnimal = user.map((data) => {return data.nameAnimal});
         const picAnimal = user.map((data) => {return data.picAnimal});
         const sexAnimal = user.map((data) => {return data.sexAnimal});
@@ -83,7 +87,9 @@ class settingScreen extends React.PureComponent {
             ImageSource: `${picAnimal}`,
             sexAnimal: `${sexAnimal}`,
             birthAnimal: `${birthAnimal}`,
-            breedAnimal: `${breedAnimal}`
+            breedAnimal: `${breedAnimal}`,
+            nameuser: `${nameuser}`,
+            phone: `${phone}`
         })
     }
 
@@ -133,6 +139,8 @@ class settingScreen extends React.PureComponent {
         const sexAnimal = user.map((data) => {return data.sexAnimal});
         const birthAnimal = user.map((data) => {return data.birthAnimal});
         const breedAnimal = user.map((data) => {return data.breedAnimal});
+        const nameuser = user.map((data) => {return data.nameuser});
+        const phone = user.map((data) => {return data.phone});
         let UserNames = `${users}`;
         let ids = id.toString();
         if(
@@ -140,6 +148,8 @@ class settingScreen extends React.PureComponent {
             || this.state.sexAnimal === ''
             || this.state.birthAnimal === ''
             || this.state.breedAnimal === ''
+            || this.state.nameuser === ''
+            || this.state.phone === ''
         ){
             Alert.alert(
                 'แจ้งเตือน',
@@ -155,6 +165,8 @@ class settingScreen extends React.PureComponent {
             && `${birthAnimal}` === this.state.birthAnimal
             && `${breedAnimal}` === this.state.breedAnimal
             && `${picAnimal}` === this.state.ImageSource
+            && `${nameuser}` === this.state.nameuser
+            && `${phone}` === this.state.phone
         ){
             Alert.alert(
                 'แจ้งเตือน',
@@ -183,6 +195,8 @@ class settingScreen extends React.PureComponent {
         const ImageSource = this.state.ImageSource;
         const birthAnimal = this.state.birthAnimal;
         const breedAnimal = this.state.breedAnimal;
+        const nameuser = this.state.nameuser;
+        const phone = this.state.phone;
         const response = await fetch(`${SERVER_URL}/MYSQL/user/UpdateUser.php`, {
             method: 'POST',
             headers: {
@@ -195,6 +209,8 @@ class settingScreen extends React.PureComponent {
                 sexAnimal: `${sexAnimal}`,
                 picAnimal: `${ImageSource}`,
                 birthAnimal: `${birthAnimal}`,
+                nameuser: `${nameuser}`,
+                phone: `${phone}`,
                 breedAnimal: `${breedAnimal}`
             })
         }).then(response => response.json())
@@ -457,7 +473,27 @@ class settingScreen extends React.PureComponent {
                             <View style={styles.containerHistory}>
                                 <CommonText text={'ประวัติ'} size={22} style={{fontWeight: 'bold'}} />
                                 <View style={[styles.containerText,{marginTop: 30}]}>
-                                    <CommonText text={'ชื่อ :'} style={{fontWeight: 'bold'}} />
+                                    <CommonText text={'ชื่อเจ้าของสัตว์เลี้ยง :'} style={{fontWeight: 'bold'}} />
+                                    <TextInput style={styles.inputBox}
+                                               underlineColorAndroid='rgba(0,0,0,0)'
+                                               defaultValue={this.state.nameuser}
+                                               placeholderTextColor = "#d6913a"
+                                               keyboardType="text"
+                                               onChangeText={TextInputValue => this.setState({nameAnimal: TextInputValue})}
+                                    />
+                                </View>
+                                <View style={[styles.containerText,{marginTop: 30}]}>
+                                    <CommonText text={'เบอร์โทรศัพท์ :'} style={{fontWeight: 'bold'}} />
+                                    <TextInput style={styles.inputBox}
+                                               underlineColorAndroid='rgba(0,0,0,0)'
+                                               defaultValue={this.state.phone}
+                                               placeholderTextColor = "#d6913a"
+                                               keyboardType="text"
+                                               onChangeText={TextInputValue => this.setState({nameAnimal: TextInputValue})}
+                                    />
+                                </View>
+                                <View style={[styles.containerText,{marginTop: 30}]}>
+                                    <CommonText text={'ชื่อสัตว์เลี้ยง :'} style={{fontWeight: 'bold'}} />
                                     <TextInput style={styles.inputBox}
                                                underlineColorAndroid='rgba(0,0,0,0)'
                                                defaultValue={this.state.nameAnimal}
@@ -468,7 +504,7 @@ class settingScreen extends React.PureComponent {
                                 </View>
                                 <View style={[styles.containerText,
                                     {marginTop: -15, width: '92%', borderBottomWidth: 1, paddingBottom: -15, paddingTop: 15}]}>
-                                    <CommonText text={'เพศ :'} style={{fontWeight: 'bold'}} />
+                                    <CommonText text={'เพศสัตว์เลี้ยง :'} style={{fontWeight: 'bold'}} />
                                     <Picker
                                         mode="dropdown"
                                         style={{ marginLeft: 7,color:'#d6913a', marginTop: -10, marginBottom: -10 , textDecorationLine: 'underline', width: '100%'}}
@@ -482,7 +518,7 @@ class settingScreen extends React.PureComponent {
                                     </Picker>
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 0}]}>
-                                    <CommonText text={'วันเกิด :'} style={{fontWeight: 'bold'}} />
+                                    <CommonText text={'วันเกิดสัตว์เลี้ยง :'} style={{fontWeight: 'bold'}} />
                                     <View style={styles.containerDate}>
                                         <CommonText text={moment(`${this.state.birthAnimal}`).format("DD/MM/YYYY")} style={styles.textDate}/>
                                         <DatePicker
@@ -506,7 +542,7 @@ class settingScreen extends React.PureComponent {
                                     </View>
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 0, marginBottom: 0}]}>
-                                    <CommonText text={'สายพันธ์ :'} style={{fontWeight: 'bold'}} />
+                                    <CommonText text={'สายพันธ์ุ :'} style={{fontWeight: 'bold'}} />
                                     <TextInput style={styles.inputBox}
                                                underlineColorAndroid='rgba(0,0,0,0)'
                                                defaultValue={this.state.breedAnimal}

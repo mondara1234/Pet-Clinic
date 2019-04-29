@@ -12,6 +12,7 @@ import { HOME_SCREEN } from "../../Index/router";
 import { HISTORY_SCREEN } from "../router";
 import { SETTING_SCREEN } from "../../Setting/router";
 import { SETLOAD } from "../redux/actions";
+import moment from "moment/moment";
 
 class DetailHistory extends React.PureComponent {
     constructor(){
@@ -51,7 +52,7 @@ class DetailHistory extends React.PureComponent {
                             <View style={{marginLeft: 10}}>
                                 <View style={[styles.containerText,{marginTop: 5}]}>
                                     <CommonText text={'วันที่ทำการรักษา : '} size={18} style={{fontWeight: 'bold'}}  />
-                                    <CommonText text={HistoryData.symptom} size={18} />
+                                    <CommonText text={`${moment(HistoryData.date).format("DD/MM/YYYY")} ${HistoryData.time}`} size={18} />
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 5}]}>
                                     <CommonText text={'ผู้รับผิดชอบ : '} size={18} style={{fontWeight: 'bold'}}  />
@@ -72,7 +73,7 @@ class DetailHistory extends React.PureComponent {
                             </View>
                             <CommonText text={'ราคาทั้งหมด :'} size={18} style={{fontWeight: 'bold'}} />
                             <View style={styles.containerDetail}>
-                                <CommonText text={HistoryData.price} size={18} />
+                                <CommonText text={`${HistoryData.price} บาท`} size={18} />
                             </View>
                         </View>
                     </Content>

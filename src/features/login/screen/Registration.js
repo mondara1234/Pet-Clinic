@@ -98,9 +98,9 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'flex-end',
         justifyContent: 'center',
-        paddingVertical: 16,
+        paddingVertical: 5,
         flexDirection: 'row',
-        marginBottom: 5
+        marginBottom: 10
     },
     signupText: {
         color: 'rgba(0,0,0,0.6)',

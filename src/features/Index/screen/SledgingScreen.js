@@ -29,7 +29,8 @@ class SledgingScreen extends React.PureComponent {
             dateShow: '',
             timeBD: '',
             dateBD: '',
-            detail: ''
+            detail: '',
+            nameuser: ''
         };
     }
 
@@ -55,6 +56,7 @@ class SledgingScreen extends React.PureComponent {
 
     getdataSledging() {
         const { dataSladging } = this.props.sledging;
+        const nameuser = dataSladging.map((data) => {return data.nameuser});
         const user = dataSladging.map((data) => {return data.user});
         const title = dataSladging.map((data) => {return data.title});
         const date = dataSladging.map((data) => {return data.date});
@@ -64,6 +66,7 @@ class SledgingScreen extends React.PureComponent {
         const dateShow = moment(`${date} ${time}`).format("DD/MM/YYYY HH:mm");
         this.setState({
             user: user,
+            nameuser: nameuser,
             title: title,
             dateShow: dateShow,
             Responsible: Responsible,
@@ -76,6 +79,7 @@ class SledgingScreen extends React.PureComponent {
         const dates = dataSladging.map((data) => {return data.date});
 
         const user = this.state.user;
+        const nameuser = this.state.nameuser;
         const title = this.state.title;
         const dateBD = this.state.dateBD;
         const time = this.state.timeBD;
@@ -108,7 +112,7 @@ class SledgingScreen extends React.PureComponent {
                 `คุณต้องการเลื่อนนัดเป็นวันที่: ${this.state.dateShow} ใช่ไหม`,
                 [
                     { text: 'ใช่', onPress: () => {
-                        this.InsertSledging( user, title, dateBD, time, detail, status, Responsible, old_date );
+                        this.InsertSledging( user, title, dateBD, time, detail, status, Responsible, old_date, nameuser );
                     } },
                     { text: 'ยกเลิก', onPress: () => {}, style: "cancel" },
                 ],
@@ -117,7 +121,7 @@ class SledgingScreen extends React.PureComponent {
         }
     }
 
-    async InsertSledging(user, title, dateBD, time, detail, status, Responsible, old_date){
+    async InsertSledging(user, title, dateBD, time, detail, status, Responsible, old_date, nameuser){
         const response = await fetch(`${SERVER_URL}/MYSQL/sledging/Insert_Postponement.php`, {
             method: 'POST',
             headers: {
@@ -132,6 +136,7 @@ class SledgingScreen extends React.PureComponent {
                 detail: `${detail}`,
                 Responsible: `${Responsible}`,
                 old_date: `${old_date}`,
+                nameuser: `${nameuser}`,
                 status: `${status}`
             })
         }).then((response) => response.json())
