@@ -479,7 +479,7 @@ class settingScreen extends React.PureComponent {
                                                defaultValue={this.state.nameuser}
                                                placeholderTextColor = "#d6913a"
                                                keyboardType="text"
-                                               onChangeText={TextInputValue => this.setState({nameAnimal: TextInputValue})}
+                                               onChangeText={TextInputValue => this.setState({nameuser: TextInputValue})}
                                     />
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 30}]}>
@@ -489,7 +489,7 @@ class settingScreen extends React.PureComponent {
                                                defaultValue={this.state.phone}
                                                placeholderTextColor = "#d6913a"
                                                keyboardType="text"
-                                               onChangeText={TextInputValue => this.setState({nameAnimal: TextInputValue})}
+                                               onChangeText={TextInputValue => this.setState({phone: TextInputValue})}
                                     />
                                 </View>
                                 <View style={[styles.containerText,{marginTop: 30}]}>

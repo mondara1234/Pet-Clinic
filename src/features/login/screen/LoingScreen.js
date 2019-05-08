@@ -55,7 +55,7 @@ class LoingScreen extends Component {
             const username = this.state.User;
             const UserNames = `${username}`;
             const Password = this.state.UserPassword;
-            const response = await fetch(`${SERVER_URL}/MYSQL/user/User_Login.php`, {
+            const responses = await fetch(`${SERVER_URL}/MYSQL/user/User_Login.php`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -70,13 +70,12 @@ class LoingScreen extends Component {
                 .catch((error) => {
                     console.error(error);
                 });
-
-            if(response === 'Data Matched')
+            if(responses === 'Data Matched')
             {
                 this.SelectUser(UserNames);
             }
             else{
-                Alert.alert('Error',response);
+                Alert.alert('แจ้งเตือน',responses);
             }
 
         }

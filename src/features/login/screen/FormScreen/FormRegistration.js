@@ -27,7 +27,7 @@ class FormRegistration extends Component {
             TextInput_birthAnimal: '',
             TextInput_breedAnimal: '',
             date: 'กรุณาเลือกวันเกิดของสัตว์เลี้ยง',
-            ImgDefault: 'https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1',
+            ImgDefault: 'https://png.pngtree.com/element_origin_min_pic/16/06/09/195759524771bf9.jpg',
             ImageSource: null,
             data: null
         }
@@ -283,7 +283,6 @@ class FormRegistration extends Component {
                     <TextInput style={styles.inputBox}
                                underlineColorAndroid='rgba(0,0,0,0)'
                                placeholder={'เบอร์โทรศัพท์'}
-                               secureTextEntry={true}
                                placeholderTextColor = "#d6913a"
                                onChangeText={ TextInputValue => this.setState({ TextInput_Phone : TextInputValue }) }
                     />
